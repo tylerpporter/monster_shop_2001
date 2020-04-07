@@ -1,4 +1,5 @@
 class RegisterController < ApplicationController
+  
   def new
     @user_info = {}
   end
