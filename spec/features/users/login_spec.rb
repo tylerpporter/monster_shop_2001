@@ -5,7 +5,7 @@ RSpec.describe 'As a visitor' do
     it 'I see a field to enter my email address & password' do
       visit '/login'
 
-      expect(page).to have_css("#login_form")
+      expect(page).to have_css(".login_form")
 
       within(".login_form") do
         expect(page).to have_css("#email")
