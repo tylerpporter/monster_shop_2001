@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :password, presence:true
   validates :password_confirmation, presence:true
 
-  enum role: %w(basic)
+  enum role: %w(basic admin)
 
   has_secure_password
 end
