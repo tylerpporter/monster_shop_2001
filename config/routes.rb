@@ -44,15 +44,10 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
 
   #logout
-  get '/logout', to: 'sessions#destroy'
+  delete '/logout', to: 'sessions#destroy'
 
   #profile
   get '/profile', to: 'profile#show'
-
-  #login
-  get '/login', to: 'login#new'
-  #logout
-  get "/logout", to: 'logout#show'
 
   #admin_user
   namespace :admin do

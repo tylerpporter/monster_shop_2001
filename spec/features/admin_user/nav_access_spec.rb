@@ -51,7 +51,7 @@ RSpec.describe "As a admin level user" do
         click_link "Logout"
       end
 
-      expect(current_path).to eql("/logout")
+      expect(current_path).to eql("/")
     end
 
     it "I can click link to admin dashboard" do

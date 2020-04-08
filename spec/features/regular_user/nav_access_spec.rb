@@ -60,7 +60,7 @@ RSpec.describe "As a regular level user" do
         click_link "Logout"
       end
 
-      expect(current_path).to eql("/logout")
+      expect(current_path).to eql("/")
     end
 
     it "I can click link to return to welcome." do
@@ -91,7 +91,7 @@ RSpec.describe "As a regular level user" do
       expect(page).to have_content("The page you were looking for doesn't exist.")
 
       visit '/admin'
-      
+
       expect(page).to have_content("The page you were looking for doesn't exist.")
     end
   end

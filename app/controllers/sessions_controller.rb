@@ -32,9 +32,10 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    # require 'pry'; binding.pry
     session.delete(:cart)
     session[:user_id] = nil
     flash[:notice] = "You are logged out"
-    redirect_to "/login"
+    redirect_to "/"
   end
 end

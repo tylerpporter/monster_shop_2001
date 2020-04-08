@@ -19,7 +19,7 @@
       <%= link_to "Register", "/register" if current_user.nil? %> <!-- I need to not see this -->
       <%= link_to "Home", "/" %>
       <%= link_to "My Profile", "/profile" unless current_user.nil? %>
-      <%= link_to "Logout", "/logout" unless current_user.nil? %>
+      <%= link_to "Logout", "/logout", method: :delete unless current_user.nil? %>
       <%= link_to "Merchant Dashboard", "/merchant" if current_merchant? %>
       <%= link_to "Admin Dashboard", "/admin" if current_admin? %>
       <%= link_to "All Users", "/admin/users" if current_admin? %>

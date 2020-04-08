@@ -60,7 +60,7 @@ RSpec.describe "As a merchant level user" do
         click_link "Logout"
       end
 
-      expect(current_path).to eql("/logout")
+      expect(current_path).to eql("/")
     end
 
     it "I can see a link to my merchant dashboard" do

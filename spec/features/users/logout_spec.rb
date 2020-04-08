@@ -31,22 +31,25 @@ RSpec.describe 'As a registered user, merchant, or admin' do
       end
 
       expect(current_path).to eql("/profile")
+
       visit "/items/#{@paper.id}"
       click_on "Add To Cart"
       visit "/items/#{@tire.id}"
       click_on "Add To Cart"
       visit "/items/#{@pencil.id}"
       click_on "Add To Cart"
-      @items_in_cart = [@paper,@tire,@pencil]
 
-      visit '/logout'
+      within(".topnav") do
+        expect(page).to have_content("Cart: 3")
+      end
 
-      expect(current_path).to eql("/login")
+      click_link 'Logout'
+
+      within(".topnav") do
+        expect(page).to have_content("Cart: 0")
+      end
+      expect(current_path).to eql("/")
       expect(page).to have_content("You are logged out")
-    end
-
-    it 'Any items I had in my shopping cart are deleted' do
-      expect(@items_in_cart).to eql(nil)
     end
   end
 
@@ -76,17 +79,20 @@ RSpec.describe 'As a registered user, merchant, or admin' do
       click_on "Add To Cart"
       visit "/items/#{@pencil.id}"
       click_on "Add To Cart"
-      @items_in_cart = [@paper,@tire,@pencil]
+      within(".topnav") do
+        expect(page).to have_content("Cart: 3")
+      end
 
-      visit '/logout'
+      click_link 'Logout'
 
-      expect(current_path).to eql("/login")
+      within(".topnav") do
+        expect(page).to have_content("Cart: 0")
+      end
+      expect(current_path).to eql("/")
       expect(page).to have_content("You are logged out")
     end
 
-    it 'Any items I had in my shopping cart are deleted' do
-      expect(@items_in_cart).to eql(nil)
-    end
+
   end
 
   context 'When I visit the logout path I am redirected to root' do
@@ -109,23 +115,13 @@ RSpec.describe 'As a registered user, merchant, or admin' do
         click_button("Submit")
       end
 
-      expect(current_path).to eql("/admin")
-      visit "/items/#{@paper.id}"
-      click_on "Add To Cart"
-      visit "/items/#{@tire.id}"
-      click_on "Add To Cart"
-      visit "/items/#{@pencil.id}"
-      click_on "Add To Cart"
-      @items_in_cart = [@paper,@tire,@pencil]
+      click_link 'Logout'
 
-      visit '/logout'
-
-      expect(current_path).to eql("/login")
+      within(".topnav") do
+        expect(page).to have_content("Cart: 0")
+      end
+      expect(current_path).to eql("/")
       expect(page).to have_content("You are logged out")
-    end
-
-    it 'Any items I had in my shopping cart are deleted' do
-      expect(@items_in_cart).to eql(nil)
     end
   end
 end
