@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-    if user.authenticate(params[:password])
+    if !user.nil? && user.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:success] = "You are logged in"
 
@@ -15,6 +15,9 @@ class SessionsController < ApplicationController
       elsif user.merchant?
         redirect_to "/merchant"
       end
+    else
+      flash[:error] = "Email and/or Password is incorrect"
+      redirect_to "/login"
     end
   end
 end
