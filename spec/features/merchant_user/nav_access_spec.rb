@@ -87,11 +87,17 @@ RSpec.describe "As a merchant level user" do
       end
     end
 
-
     it "I can see text that confirms that I am logged in" do
       within(".topnav") do
         expect(page).to have_content("Logged in as #{@merchant_user.name}")
       end
+    end
+
+    it "I see 404 error when navigating to restricted pages" do
+
+      visit '/admin'
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
     end
   end
 end
