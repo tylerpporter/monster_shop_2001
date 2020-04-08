@@ -34,22 +34,33 @@ Rails.application.routes.draw do
   get '/orders/new', to: 'orders#new'
   post '/orders', to: 'orders#create'
   get '/orders/:id', to: 'orders#show'
+
   #register
   get '/register', to: 'register#new'
   post '/register', to: 'register#create'
+
+  #login
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+
+  #logout
+  get '/logout', to: 'sessions#destroy'
+
   #profile
   get '/profile', to: 'profile#show'
+
   #login
   get '/login', to: 'login#new'
   #logout
   get "/logout", to: 'logout#show'
-  #merchant_user
-  get '/merchant', to: 'merchant#show'
+
   #admin_user
   namespace :admin do
-    get '/', to: 'admin#show'
-    #users
+    get '/', to: "dashboard#show"
     get '/users', to: 'users#index'
-
+  end
+  #merchant_user
+  namespace :merchant do
+    get '/', to: "dashboard#show"
   end
 end
