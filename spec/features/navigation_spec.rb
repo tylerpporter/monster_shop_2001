@@ -51,5 +51,19 @@ RSpec.describe 'Site Navigation' do
         expect(page).to have_no_link("All Users")
       end
     end
+
+    it "I get a 404 error if I try to navigate to restricted pages" do
+      visit "/merchant"
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+      
+      visit "/admin"
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+
+      visit "/profile"
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
   end
 end
