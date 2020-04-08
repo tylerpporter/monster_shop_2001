@@ -7,7 +7,14 @@ class SessionsController < ApplicationController
     if user.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:success] = "You are logged in"
-      redirect_to "/profile"
+
+      if user.basic?
+        redirect_to "/profile"
+      elsif user.admin?
+        redirect_to "/admin/dashboard"
+      elsif user.merchant?
+        redirect_to "/merchant"
+      end
     end
   end
 end
