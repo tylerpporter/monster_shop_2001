@@ -26,8 +26,15 @@ class SessionsController < ApplicationController
         redirect_to "/merchant"
       end
     else
-      flash[:error] = "Email and/or Password is incorrect"
+      flash[:danger] = "Email and/or Password is incorrect"
       redirect_to "/login"
     end
+  end
+
+  def destroy
+    session.delete(:cart)
+    session[:user_id] = nil
+    flash[:notice] = "You are logged out"
+    redirect_to "/login"
   end
 end
