@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'As a registered user, merchant, or admin' do
 
-  describe 'When I visit the login path as a basic user' do
+  describe 'When I visit the login path as a regular user' do
     context 'I am redirected to my profile page' do
       it 'And I see a flash message that tells me I am already logged in' do
-        user = User.create(name: "basic_test_user",
+        user = User.create(name: "regular_test_user",
                            address: "1163 S Dudley St",
                            city: "Lakewood",
                            state: "CO",

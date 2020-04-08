@@ -6,8 +6,6 @@ RSpec.describe 'As a visitor' do
 
       visit '/login'
 
-      expect(page).to have_css(".login_form")
-
       within(".login_form") do
         expect(page).to have_css("#email")
         expect(page).to have_css("#password")
@@ -17,7 +15,7 @@ RSpec.describe 'As a visitor' do
     describe 'When I submit valid information' do
       context 'if I am a regular user' do
         it 'I am redirected to my profile page & I see a flash message that I am logged in' do
-          user = User.create(name: "basic_test_user",
+          user = User.create(name: "regular_test_user",
                              address: "1163 S Dudley St",
                              city: "Lakewood",
                              state: "CO",

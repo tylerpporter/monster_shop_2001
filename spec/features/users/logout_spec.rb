@@ -12,7 +12,7 @@ RSpec.describe 'As a registered user, merchant, or admin' do
 
   context 'When I visit the logout path I am redirected to root' do
     it 'And I see a flash message that I am logged out' do
-      user = User.create(name: "basic_test_user",
+      user = User.create(name: "regular_test_user",
                          address: "1163 S Dudley St",
                          city: "Lakewood",
                          state: "CO",

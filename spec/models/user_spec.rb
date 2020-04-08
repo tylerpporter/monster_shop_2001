@@ -14,8 +14,8 @@ RSpec.describe User do
   end
 
   describe "roles" do
-    it "create basic user" do
-      user = User.create(name: "basic_test_user",
+    it "create regular user" do
+      user = User.create(name: "regular_test_user",
                          address: "1163 S Dudley St",
                          city: "Lakewood",
                          state: "CO",
@@ -25,8 +25,8 @@ RSpec.describe User do
                          password_confirmation: "password",
                          role: 0)
 
-      expect(user.role).to eq("basic")
-      expect(user.basic?).to be_truthy
+      expect(user.role).to eq("regular")
+      expect(user.regular?).to be_truthy
     end
 
     it "create merchant user" do
