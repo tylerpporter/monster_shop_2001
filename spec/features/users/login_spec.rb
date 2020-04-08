@@ -84,7 +84,7 @@ RSpec.describe 'As a visitor' do
             click_button("Submit")
           end
 
-          expect(current_path).to eql("/admin/dashboard")
+          expect(current_path).to eql("/admin")
           expect(page).to have_content("You are logged in")
         end
       end
