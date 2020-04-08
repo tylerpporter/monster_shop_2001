@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class SessionController < ApplicationController
 
   def new
     flash[:error] = "You are already logged in" if current_user.present?
