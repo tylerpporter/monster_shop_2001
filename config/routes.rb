@@ -43,4 +43,6 @@ Rails.application.routes.draw do
   get '/login', to: 'login#new'
   #logout
   get "/logout", to: 'logout#show'
+  #merchant_user
+  get '/merchant', to: 'merchant#show'
 end
