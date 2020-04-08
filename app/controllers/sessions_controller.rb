@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   def new
      if current_user.present?
       flash[:error] = "You are already logged in"
-      if current_user.basic?
+      if current_user.regular?
         redirect_to "/profile"
       elsif current_user.admin?
         redirect_to "/admin"
@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       flash[:success] = "You are logged in"
 
-      if user.basic?
+      if user.regular?
         redirect_to "/profile"
       elsif user.admin?
         redirect_to "/admin"
