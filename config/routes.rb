@@ -45,4 +45,11 @@ Rails.application.routes.draw do
   get "/logout", to: 'logout#show'
   #merchant_user
   get '/merchant', to: 'merchant#show'
+  #admin_user
+  namespace :admin do
+    get '/', to: 'admin#show'
+    #users
+    get '/users', to: 'users#index'
+
+  end
 end
