@@ -11,13 +11,15 @@
   <body>
 
     <nav class = "topnav">
+      <%= "Logged in as #{current_user.name}" if current_regular? %>
       <%= link_to "All Merchants", "/merchants"%>
       <%= link_to "All Items", "/items"%>
       <%= link_to "Cart: #{cart.total_items}", "/cart" %>
-      <%= link_to "Login", "/login" %> <!-- I need to not see this -->
-      <%= link_to "Register", "/register" %> <!-- I need to not see this -->
+      <%= link_to "Login", "/login" if current_user.nil? %> <!-- I need to not see this -->
+      <%= link_to "Register", "/register" if current_user.nil? %> <!-- I need to not see this -->
       <%= link_to "Home", "/" %>
-      <%= link_to "My Profile", "/profile" if current_user.regular? %> 
+      <%= link_to "My Profile", "/profile" if current_regular? %>
+      <%= link_to "Logout", "/logout" if current_regular? %>
     </nav>
 
     <% flash.each do |name, msg| %>

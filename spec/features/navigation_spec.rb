@@ -42,6 +42,14 @@ RSpec.describe 'Site Navigation' do
       end
 
       expect(current_path).to eq('/')
+
+      within(nav) do
+        expect(page).to have_no_link("Profile")
+        expect(page).to have_no_link("Logout")
+        expect(page).to have_no_link("Merchant Dashboard")
+        expect(page).to have_no_link("Admin Dashboard")
+        expect(page).to have_no_link("All Users")
+      end
     end
   end
 end
