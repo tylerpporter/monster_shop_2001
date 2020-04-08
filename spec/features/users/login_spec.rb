@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'As a visitor' do
   describe 'When I visit the login path' do
     it 'I see a field to enter my email address & password' do
+
       visit '/login'
 
       expect(page).to have_css(".login_form")
@@ -38,13 +39,55 @@ RSpec.describe 'As a visitor' do
           expect(page).to have_content("You are logged in")
         end
       end
+
+      context 'If I am a merchant user' do
+        it 'I am redirected to my merchant dashboard page & I see a flash message that I am logged in' do
+          merchant = User.create(name: "merchant_test_user",
+                                 address: "222 Merchant St",
+                                 city: "Lakewood",
+                                 state: "WA",
+                                 zip: "80232",
+                                 email: "ryan@comcast.net",
+                                 password: "123password",
+                                 password_confirmation: "123password",
+                                 role: 1)
+          visit '/login'
+
+          within(".login_form") do
+            fill_in :email, with: "ryan@comcast.net"
+            fill_in :password, with: "123password"
+            click_button("Submit")
+          end
+
+          expect(current_path).to eql("/merchant")
+          expect(page).to have_content("You are logged in")
+        end
+      end
+
+      context 'If I am a admin user' do
+        it 'I am redirected to my admin dashboard page & nd I see a flash message that I am logged in' do
+          admin = User.create(name: "admin_test_user",
+                              address: "1111 Admin St",
+                              city: "Lakewood",
+                              state: "CA",
+                              zip: "80232",
+                              email: "camp@example.com",
+                              password: "password123",
+                              password_confirmation: "password123",
+                              role: 2)
+
+          visit '/login'
+
+          within(".login_form") do
+            fill_in :email, with: "camp@example.com"
+            fill_in :password, with: "password123"
+            click_button("Submit")
+          end
+
+          expect(current_path).to eql("/admin/dashboard")
+          expect(page).to have_content("You are logged in")
+        end
+      end
     end
   end
 end
-
-
-        # it 'If I am a merchant user, I am redirected to my merchant dashboard page & I see a flash message that I am logged in' do
-        # end
-
-        # it 'If I am an admin user, I am redirected to my admin dashboard page & nd I see a flash message that I am logged in' do
-        # end
