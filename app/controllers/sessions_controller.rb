@@ -7,21 +7,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-    if !user.nil? && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      flash[:success] = "You are logged in"
-
-      if user.regular?
-        redirect_to "/profile"
-      elsif user.admin?
-        redirect_to "/admin"
-      elsif user.merchant?
-        redirect_to "/merchant"
-      end
-    else
-      flash[:danger] = "Email and/or Password is incorrect"
-      redirect_to "/login"
-    end
+    authenticate(user) ? login(user) : invalid_user
   end
 
   def destroy
@@ -37,6 +23,21 @@ class SessionsController < ApplicationController
     redirect_to '/profile' if current_regular?
     redirect_to '/merchant' if current_merchant?
     redirect_to '/admin' if current_admin?
+  end
+
+  def login(user)
+    session[:user_id] = user.id
+    flash[:notice] = "You are logged in"
+    user_redirect
+  end
+
+  def authenticate(user)
+    user.present? && user.authenticate(params[:password])
+  end
+
+  def invalid_user
+    flash[:error] = "Email and/or Password is incorrect"
+    redirect_to "/login"
   end
 
 end
