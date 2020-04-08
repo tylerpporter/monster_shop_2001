@@ -9,16 +9,24 @@
   </head>
 
   <body>
+
     <nav class = "topnav">
       <%= link_to "All Merchants", "/merchants"%>
       <%= link_to "All Items", "/items"%>
       <%= link_to "Cart: #{cart.total_items}", "/cart" %>
+      <%= link_to "Login", "/login" %> <!-- I need to not see this -->
+      <%= link_to "Register", "/register" %> <!-- I need to not see this -->
+      <%= link_to "Home", "/" %>
+      <%= link_to "My Profile", "/profile" if current_user.regular? %> 
     </nav>
+
     <% flash.each do |name, msg| %>
       <div class= "<%=name%>-flash">
         <p><%= msg %></p>
       </div>
     <% end %>
+
     <%= yield %>
+
   </body>
 </html>
