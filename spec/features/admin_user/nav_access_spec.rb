@@ -96,5 +96,15 @@ RSpec.describe "As a admin level user" do
         expect(page).to have_content("Logged in as #{@admin_user.name}")
       end
     end
+
+    it "I see 404 error when navigating to restricted pages" do
+      visit '/merchant'
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+
+      visit '/cart'
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
   end
 end
