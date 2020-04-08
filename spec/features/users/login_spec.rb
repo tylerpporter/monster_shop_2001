@@ -89,5 +89,34 @@ RSpec.describe 'As a visitor' do
         end
       end
     end
+
+    describe 'When I submit invalid information' do
+      it 'Then I am redirected to the login page
+          And I see a flash message that tells me that my credentials were incorrect
+          I am NOT told whether it was my email or password that was incorrect' do
+
+        visit '/login'
+
+        within(".login_form") do
+          fill_in :email, with: "wrongemail@example.com"
+          fill_in :password, with: "wrongpassword"
+          click_button("Submit")
+        end
+
+        expect(current_path).to eq("/login")
+        expect(page).to have_content("Email and/or Password is incorrect")
+      end
+    end
   end
 end
+
+# [ ] done
+#
+# User Story 14, User cannot log in with bad credentials
+#
+# As a visitor
+# When I visit the login page ("/login")
+# And I submit invalid information
+# Then I am redirected to the login page
+# And I see a flash message that tells me that my credentials were incorrect
+# I am NOT told whether it was my email or password that was incorrect
