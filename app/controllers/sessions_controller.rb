@@ -1,15 +1,8 @@
 class SessionsController < ApplicationController
+
   def new
-     if current_user.present?
-      flash[:error] = "You are already logged in"
-      if current_user.regular?
-        redirect_to "/profile"
-      elsif current_user.admin?
-        redirect_to "/admin"
-      elsif current_user.merchant?
-        redirect_to "/merchant"
-      end
-    end
+    flash[:error] = "You are already logged in" if current_user.present?
+    user_redirect
   end
 
   def create
@@ -32,10 +25,18 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    # require 'pry'; binding.pry
     session.delete(:cart)
     session[:user_id] = nil
     flash[:notice] = "You are logged out"
     redirect_to "/"
   end
+
+  private
+
+  def user_redirect
+    redirect_to '/profile' if current_regular?
+    redirect_to '/merchant' if current_merchant?
+    redirect_to '/admin' if current_admin?
+  end
+
 end
