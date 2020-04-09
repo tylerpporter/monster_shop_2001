@@ -10,7 +10,6 @@ class ProfileController < ApplicationController
 
   def update
     @user = current_user
-    binding.pry
     @user.update(user_params.to_h)
 
     if @user.save
