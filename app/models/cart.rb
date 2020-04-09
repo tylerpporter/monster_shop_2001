@@ -31,10 +31,6 @@ class Cart
     end
   end
 
-  def increment(item_id)
-    @contents[item_id] += 1 unless max_quantity?(item_id)
-  end
-
   def max_quantity?(item_id)
     Item.find(item_id).inventory <= @contents[item_id]
   end
