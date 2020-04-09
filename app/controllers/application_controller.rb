@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
                 :visitor?
 
   def cart
-    @cart ||= Cart.new(session[:cart] ||= Hash.new(0))
+    @cart ||= Cart.new(session[:cart] ||= {} )
   end
 
   def current_user
