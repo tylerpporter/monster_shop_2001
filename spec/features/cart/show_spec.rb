@@ -55,6 +55,36 @@ RSpec.describe 'Cart show' do
 
         expect(page).to have_content("Total: $124")
       end
+# *************************
+      it "I can increment an item by clicking button, but not beyond inventory size." do
+        visit "/cart"
+
+        within("#cart-item-#{@tire.id}") do
+          expect(page).to have_content("1")
+        end
+
+        within("#cart-item-#{@tire.id}") do
+          3.times do
+            click_link("Add-1")
+          end
+        end
+
+        within("#cart-item-#{@tire.id}") do
+          expect(page).to have_content("4")
+        end
+
+        within("#cart-item-#{@tire.id}") do
+          15.times do
+            click_link("Add-1")
+          end
+        end
+
+        within("#cart-item-#{@tire.id}") do
+          expect(page).to have_content("12")
+        end
+
+      end
+# *****************************
     end
   end
   describe "When I haven't added anything to my cart" do
