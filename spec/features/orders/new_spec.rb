@@ -1,6 +1,22 @@
 RSpec.describe("New Order Page") do
   describe "When I check out from my cart" do
     before(:each) do
+      @merchant = User.create(name: "merchant_test_user",
+                             address: "222 Merchant St",
+                             city: "Lakewood",
+                             state: "WA",
+                             zip: "80232",
+                             email: "ryan@comcast.net",
+                             password: "123password",
+                             password_confirmation: "123password",
+                             role: 1)
+      visit '/login'
+
+      within(".login_form") do
+        fill_in :email, with: "ryan@comcast.net"
+        fill_in :password, with: "123password"
+        click_button("Submit")
+      end
       @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
