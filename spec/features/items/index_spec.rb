@@ -50,6 +50,14 @@ RSpec.describe "Items Index Page" do
       expect(page).to have_no_css("#item-#{@dog_bone.id}")
     end
 
+    it "I can click on the image for item, which is a link, and be taken to show page." do
+      visit "/items"
 
+      within("#item-#{@tire.id}") do
+        page.find(".image-link").click
+      end
+
+      expect(current_path).to eql("/items/#{@tire.id}")
+    end
   end
 end
