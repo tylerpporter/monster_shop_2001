@@ -68,6 +68,7 @@ describe Item, type: :model do
       ItemOrder.create(item: @bike_item4, order: @order1, price: @bike_item4.price, quantity: 600)
       ItemOrder.create(item: @bike_item5, order: @order1, price: @bike_item5.price, quantity: 300)
       ItemOrder.create(item: @bike_item6, order: @order1, price: @bike_item6.price, quantity: 2000)
+      ItemOrder.create(item: @bike_item3, order: @order1, price: @bike_item3.price, quantity: 600)
     end
 
     it "can return a collection of all active items." do
@@ -75,7 +76,7 @@ describe Item, type: :model do
     end
 
     it "can return the 5 most ordered items" do
-      expect(Item.five_most_poplular).to eql([@bike_item6, @bike_item3, @bike_item1, @bike_item2, @bike_item4,])
+      expect(Item.five_most_poplular).to eql([@bike_item3, @bike_item6, @bike_item1, @bike_item2, @bike_item4,])
     end
   end
 

@@ -29,4 +29,8 @@ class Item <ApplicationRecord
     where(active?: true)
   end
 
+  def self.five_most_poplular
+    self.joins(:item_orders).group("items.id").order("SUM(item_orders.quantity) DESC").take(5)
+  end
+
 end
