@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
   #profile
   get '/profile', to: 'profile#show'
+  get '/profile/edit', to: 'profile#edit'
 
   #admin_user
   namespace :admin do
