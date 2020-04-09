@@ -3,10 +3,10 @@ class Cart
 
   def initialize(contents)
     @contents = contents
+    @contents.default = 0
   end
 
   def add_item(item)
-    @contents[item] = 0 unless @contents[item]
     @contents[item] += 1
   end
 
