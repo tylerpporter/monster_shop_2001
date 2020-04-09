@@ -6,7 +6,7 @@ class Cart
   end
 
   def add_item(item)
-    @contents[item] = 0 if !@contents[item]
+    @contents[item] = 0 unless @contents[item]
     @contents[item] += 1
   end
 
@@ -15,11 +15,10 @@ class Cart
   end
 
   def items
-    item_quantity = {}
-    @contents.each do |item_id,quantity|
-      item_quantity[Item.find(item_id)] = quantity
+    @contents.reduce({}) do |items, (item_id, quantity)|
+      items[Item.find(item_id)] = quantity
+      items
     end
-    item_quantity
   end
 
   def subtotal(item)
