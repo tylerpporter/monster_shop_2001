@@ -21,29 +21,50 @@ RSpec.describe 'As a registered user' do
     end
   end
 
-  describe 'When I visit my profile page I see a link to reset my password' do
-    context 'When I click on the link to reset my password' do
-      it 'I see a form with new password & new password confirmation fields' do
+  describe 'When I visit my profile page' do
+    it ' I see a link to reset my password' do
+
+      visit "/profile"
+
+      click_on "Reset Password"
+
+      expect(current_path).to eq("/password/edit")
+
+      expect(page).to have_content("Reset Password")
+      expect(page).to have_css(".form")
+    end
+  end
+
+  describe 'When I click on the link to reset my password I see a form' do
+    context 'When I fill in both fields with same password & submit the form' do
+      it 'I am returned to /profile & see password updated flash message' do
+
         visit "/profile"
 
         click_on "Reset Password"
 
-        expect(page).to have_css(".form")
+        within("form") do
+          fill_in :password, with: "password123"
+          fill_in :password_confirmation, with: "password123"
+          click_button("Submit")
+        end
+
+        expect(current_path).to eq("/profile")
+        expect(page).to have_content("Your Password Has Been Updated")
+
+        click_link 'Logout'
+
+        visit '/login'
+
+        within(".login_form") do
+          fill_in :email, with: "campryan@comcast.net"
+          fill_in :password, with: "password123"
+          click_button("Submit")
+        end
+
+        expect(current_path).to eql("/profile")
+        expect(page).to have_content("You are logged in")
       end
-    end
-
-    context 'When I fill in both fields with same password & submit the form' do
-      # it 'I am returned to /profile & see password updated flash message' do
-
-      #   within(".form") do
-      #     fill_in :password, with: "password"
-      #     fill_in :password_confirmation, with: "password"
-      #     click_button("Submit")
-      #   end
-
-      #   expect(current_path).to eq("/profile")
-      #   expect(page).to have_content("Your Password Has Been Updated")
-      # end
     end
   end
 end
