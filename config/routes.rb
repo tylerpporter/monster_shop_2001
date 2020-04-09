@@ -41,6 +41,9 @@ Rails.application.routes.draw do
   get '/profile', to: 'profile#show'
   get '/profile/edit', to: 'profile#edit'
 
+  #password_reset
+  resource :password, only: [:edit, :update]
+
   #admin_user
   namespace :admin do
     get '/', to: "dashboard#show"
