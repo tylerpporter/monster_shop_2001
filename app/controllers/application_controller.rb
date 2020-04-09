@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
                 :current_user,
                 :current_regular?,
                 :current_merchant?,
-                :current_admin?
+                :current_admin?,
+                :visitor?
 
   def cart
     @cart ||= Cart.new(session[:cart] ||= Hash.new(0))
@@ -25,6 +26,10 @@ class ApplicationController < ActionController::Base
 
   def current_merchant?
     current_user && current_user.merchant?
+  end
+
+  def visitor?
+    current_user.nil?
   end
 
 end
