@@ -37,8 +37,9 @@
       <td>
         <center>
           <p><%= quantity %></p>
-          <p><%= link_to "Remove", "/cart/#{item.id}",method: :delete %></p>
-          <p><%= link_to "Add-1", "/cart/#{item.id}?add?=true", method: :patch %></p>
+          <p><span><%= link_to "-1", "/cart/#{item.id}", method: :patch %></span>
+          |  <%= link_to "Remove", "/cart/#{item.id}",method: :delete %>  |
+          <span><%= link_to "+1", "/cart/#{item.id}?add?=true", method: :patch %></span></p>
         </center>
       </td>
       <!-- subtotal of cart 5th column -->
