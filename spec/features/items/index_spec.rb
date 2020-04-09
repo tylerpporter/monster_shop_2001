@@ -112,11 +112,11 @@ RSpec.describe "Items Index Page" do
 
       within(".least-popular-items") do
         expect(page).to have_content("Least Popular Items:")
-        expect(page.all("item")[0]).to have_content("#{dog_item5.name} - 300 ordered")
-        expect(page.all("item")[1]).to have_content("#{dog_item4.name} - 600 ordered")
-        expect(page.all("item")[2]).to have_content("#{dog_item7.name} - 700 ordered")
-        expect(page.all("item")[3]).to have_content("#{dog_item2.name} - 1100 ordered")
-        expect(page.all("item")[4]).to have_content("#{dog_item1.name} - 1200 ordered")
+        expect(page.all(".item")[0]).to have_content("#{dog_item5.name} - 300 ordered")
+        expect(page.all(".item")[1]).to have_content("#{dog_item4.name} - 600 ordered")
+        expect(page.all(".item")[2]).to have_content("#{dog_item7.name} - 700 ordered")
+        expect(page.all(".item")[3]).to have_content("#{dog_item2.name} - 1100 ordered")
+        expect(page.all(".item")[4]).to have_content("#{dog_item1.name} - 1200 ordered")
         expect(page).to have_no_content(dog_item3)
         expect(page).to have_no_content(dog_item6)
       end
