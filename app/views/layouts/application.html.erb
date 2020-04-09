@@ -9,16 +9,29 @@
   </head>
 
   <body>
+
     <nav class = "topnav">
+      <%= "Logged in as #{current_user.name}" unless visitor? %>
       <%= link_to "All Merchants", "/merchants"%>
       <%= link_to "All Items", "/items"%>
-      <%= link_to "Cart: #{cart.total_items}", "/cart" %>
+      <%= link_to "Cart: #{cart.total_items}", "/cart" unless current_admin? %>
+      <%= link_to "Login", "/login" if visitor? %>
+      <%= link_to "Register", "/register" if visitor? %>
+      <%= link_to "Home", "/" %>
+      <%= link_to "My Profile", "/profile" unless visitor? %>
+      <%= link_to "Logout", "/logout", method: :delete unless visitor? %>
+      <%= link_to "Merchant Dashboard", "/merchant" if current_merchant? %>
+      <%= link_to "Admin Dashboard", "/admin" if current_admin? %>
+      <%= link_to "All Users", "/admin/users" if current_admin? %>
     </nav>
+
     <% flash.each do |name, msg| %>
       <div class= "<%=name%>-flash">
         <p><%= msg %></p>
       </div>
     <% end %>
+
     <%= yield %>
+
   </body>
 </html>
