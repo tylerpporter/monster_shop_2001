@@ -51,19 +51,40 @@ RSpec.describe "As a regisered user" do
       expect(page).to have_content("80202")
       expect(page).to have_content("eshocking@gmail.com")
     end
+
+    it "If I input an invalid email,
+    I get an error message saying the email is already in use" do
+      user_2 = User.create(
+        name:   "Ethan Hocking",
+        address:   "1850 Bassett St",
+        city:   "Denver",
+        state:   "CO",
+        zip:  "80202",
+        email:   "eshocking@gmail.com",
+        password: "password",
+        password_confirmation: "password"
+      )
+
+      user_2.save
+
+      click_link "Edit Profile"
+
+
+      within ".form" do
+        fill_in :email, with: "eshocking@gmail.com"
+        click_button "Submit"
+      end
+
+      expect(page).to have_content("Email has already been taken")
+    end
   end
 end
 
-# User Story 20, User Can Edit their Profile Data
+# User Story 22, User Editing Profile Data must have unique Email address
 #
 # As a registered user
-# When I visit my profile page
-# I see a link to edit my profile data
-# When I click on the link to edit my profile data
-# I see a form like the registration page
-# The form is prepopulated with all my current information except my password
-# When I change any or all of that information
-# And I submit the form
-# Then I am returned to my profile page
-# And I see a flash message telling me that my data is updated
-# And I see my updated information
+# When I attempt to edit my profile data
+# If I try to change my email address to one that belongs to another user
+# When I submit the form
+# Then I am returned to the profile edit page
+# And I see a flash message telling me that email address is already in use
