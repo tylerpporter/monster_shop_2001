@@ -28,13 +28,21 @@ RSpec.describe 'As a registered user' do
 
         click_on "Reset Password"
 
-        expect(page).to have_css("#form")
-
+        expect(page).to have_css(".form")
       end
     end
 
     context 'When I fill in both fields with same password & submit the form' do
       it 'I am returned to /profile & see password updated flash message' do
+
+        within(".form") do
+          fill_in :password, with: "password"
+          fill_in :password_confirmation, with: "password"
+          click_button("Submit")
+        end
+
+        expect(current_path).to eq("/profile")
+        expect(page).to have_content("Your Password Has Been Updated")
       end
     end
   end
