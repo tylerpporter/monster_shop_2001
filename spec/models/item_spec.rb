@@ -58,9 +58,24 @@ describe Item, type: :model do
       @bike_item3 = @bike_shop.items.create(active?: false, name: "Entity CH15 Road/Mountain Bike Helmet", description: "Description for bike item 3", price: 20, image: "https://www.bikesonline.com/assets/full/S00144.jpg?1554705716", inventory: 40)
       @bike_item4 = @bike_shop.items.create(active?: false, name: "Entity MG15 Long Finger Gel Pad Cycling Gloves", description: "Amazing gloves.", price: 13, image: "https://www.bikesonline.com/assets/full/S00150.jpg?1554705597", inventory: 200)
       @bike_item5 = @bike_shop.items.create(name: "DHaRCO Mens Gloves", description: "Description for bike item 5", price: 23, image: "https://www.bikesonline.com/assets/full/S00258.jpg?1557515068", inventory: 25)
+      @bike_item6 = @bike_shop.items.create(active?: false, name: "bike item 6", description: "Description for bike item 6", price: 23, image: "https://www.bikesonline.com/assets/full/S00258.jpg?1557515068", inventory: 25)
+
+      @order1 = Order.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
+
+      ItemOrder.create(item: @bike_item1, order: @order1, price: @bike_item1.price, quantity: 1200)
+      ItemOrder.create(item: @bike_item2, order: @order1, price: @bike_item2.price, quantity: 1100)
+      ItemOrder.create(item: @bike_item3, order: @order1, price: @bike_item3.price, quantity: 1500)
+      ItemOrder.create(item: @bike_item4, order: @order1, price: @bike_item4.price, quantity: 600)
+      ItemOrder.create(item: @bike_item5, order: @order1, price: @bike_item5.price, quantity: 300)
+      ItemOrder.create(item: @bike_item6, order: @order1, price: @bike_item6.price, quantity: 2000)
     end
-    it "I can produce a collection of all active items." do
+
+    it "can return a collection of all active items." do
       expect(Item.all_active).to contain_exactly( @bike_item2, @bike_item1, @bike_item5)
+    end
+
+    it "can return the 5 most ordered items" do
+      expect(Item.five_most_poplular).to eql([@bike_item6, @bike_item3, @bike_item1, @bike_item2, @bike_item4,])
     end
   end
 
