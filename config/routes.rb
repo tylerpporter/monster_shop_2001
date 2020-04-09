@@ -38,8 +38,11 @@ Rails.application.routes.draw do
   delete '/logout', to: 'session#destroy'
 
   #profile
+  # NOTE: should we remain restful here? the register routes I think could be
+  # changed into profile routes, like profile post and new
   get '/profile', to: 'profile#show'
   get '/profile/edit', to: 'profile#edit'
+  patch '/profile', to: 'profile#update'
 
   #admin_user
   namespace :admin do
