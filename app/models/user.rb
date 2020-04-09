@@ -1,8 +1,6 @@
 class User < ApplicationRecord
   validates :name, :address, :city, :state, :zip, presence:true
   validates :email, presence:true, uniqueness:true
-  validates_presence_of :password, required:true
-  validates :password_confirmation, presence:true
 
   enum role: { regular: 0, merchant: 1, admin: 2 }
 
