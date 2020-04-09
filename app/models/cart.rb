@@ -6,8 +6,8 @@ class Cart
     @contents.default = 0
   end
 
-  def add_item(item)
-    @contents[item] += 1
+  def add_item(item_id)
+    @contents[item_id] += 1
   end
 
   def total_items
@@ -29,6 +29,14 @@ class Cart
     @contents.sum do |item_id,quantity|
       Item.find(item_id).price * quantity
     end
+  end
+
+  def increment(item_id)
+    @contents[item_id] += 1 unless max_quantity?(item_id)
+  end
+
+  def max_quantity?(item_id)
+    Item.find(item_id).inventory <= @contents[item_id]
   end
 
 end
