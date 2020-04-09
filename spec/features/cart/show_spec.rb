@@ -65,7 +65,7 @@ RSpec.describe 'Cart show' do
 
         within("#cart-item-#{@tire.id}") do
           3.times do
-            click_link("Add-1")
+            click_link("+1")
           end
         end
 
@@ -75,16 +75,51 @@ RSpec.describe 'Cart show' do
 
         within("#cart-item-#{@tire.id}") do
           15.times do
-            click_link("Add-1")
+            click_link("+1")
           end
         end
 
         within("#cart-item-#{@tire.id}") do
           expect(page).to have_content("12")
         end
+      end
+
+      it "I can increment an item by clicking button, if count goes to 0 delete from cart" do
+        visit "/cart"
+
+        within("#cart-item-#{@tire.id}") do
+          2.times do
+            click_link("+1")
+          end
+        end
+
+        within("#cart-item-#{@tire.id}") do
+          expect(page).to have_content("3")
+        end
+
+        within("#cart-item-#{@tire.id}") do
+            click_link("-1")
+        end
+
+        within("#cart-item-#{@tire.id}") do
+          expect(page).to have_content("2")
+        end
+
+        within("#cart-item-#{@tire.id}") do
+            click_link("-1")
+        end
+
+        within("#cart-item-#{@tire.id}") do
+          expect(page).to have_content("1")
+        end
+
+        within("#cart-item-#{@tire.id}") do
+            click_link("-1")
+        end
+
+        expect(page).to have_no_css("#cart-item-#{@tire.id}")
 
       end
-# *****************************
     end
   end
   describe "When I haven't added anything to my cart" do
