@@ -48,4 +48,20 @@ describe Item, type: :model do
       expect(@chain.no_orders?).to eq(false)
     end
   end
+
+  describe "class methods" do
+    before(:each) do
+      @bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+
+      @bike_item1 = @bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      @bike_item2 = @bike_shop.items.create(name: "Entity MH15 Mountain Bike Helmet", description: "Description for bike item 2", price: 30, image: "https://www.bikesonline.com/assets/full/S00147.jpg?1554705703", inventory: 50)
+      @bike_item3 = @bike_shop.items.create(active?: false, name: "Entity CH15 Road/Mountain Bike Helmet", description: "Description for bike item 3", price: 20, image: "https://www.bikesonline.com/assets/full/S00144.jpg?1554705716", inventory: 40)
+      @bike_item4 = @bike_shop.items.create(active?: false, name: "Entity MG15 Long Finger Gel Pad Cycling Gloves", description: "Amazing gloves.", price: 13, image: "https://www.bikesonline.com/assets/full/S00150.jpg?1554705597", inventory: 200)
+      @bike_item5 = @bike_shop.items.create(name: "DHaRCO Mens Gloves", description: "Description for bike item 5", price: 23, image: "https://www.bikesonline.com/assets/full/S00258.jpg?1557515068", inventory: 25)
+    end
+    it "I can produce a collection of all active items." do
+      expect(Item.all_active).to contain_exactly( @bike_item2, @bike_item1, @bike_item5)
+    end
+  end
+
 end
