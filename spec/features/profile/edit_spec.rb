@@ -42,9 +42,7 @@ RSpec.describe "As a regisered user" do
       expect(page).to have_current_path("/profile")
 
 
-      within(".notice-flash") do
-        expect(page).to have_content("Your profile has successfully been changed")
-      end
+      expect(page).to have_content("Your profile has been updated")
 
       expect(page).to have_content("Ethan Hocking")
       expect(page).to have_content("1850 Bassett St")
