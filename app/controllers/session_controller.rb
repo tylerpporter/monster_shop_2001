@@ -7,7 +7,7 @@ class SessionController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-    authenticate(user) ? login(user) : invalid_user
+    authenticated?(user) ? login(user) : invalid_user
   end
 
   def destroy
@@ -31,7 +31,7 @@ class SessionController < ApplicationController
     user_redirect
   end
 
-  def authenticate(user)
+  def authenticated?(user)
     user.present? && user.authenticate(params[:password])
   end
 
