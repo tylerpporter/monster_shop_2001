@@ -14,11 +14,11 @@ Rails.application.routes.draw do
   get '/items/:id', to: 'items#show'
   get '/items/:id/edit', to: 'items#edit'
   patch '/items/:id', to: 'items#update'
-  #merchant_items
-  get '/merchants/:merchant_id/items', to: 'items#index'
-  get '/merchants/:merchant_id/items/new', to: 'items#new'
-  post '/merchants/:merchant_id/items', to: 'items#create'
   delete '/items/:id', to: 'items#destroy'
+  #merchant_items
+  get '/merchants/:merchant_id/items', to: 'merchant_items#index'
+  get '/merchants/:merchant_id/items/new', to: 'merchant_items#new'
+  post '/merchants/:merchant_id/items', to: 'merchant_items#create'
   #item_reviews
   get '/items/:item_id/reviews/new', to: 'reviews#new'
   post '/items/:item_id/reviews', to: 'reviews#create'
