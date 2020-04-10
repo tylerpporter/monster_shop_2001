@@ -65,7 +65,6 @@ RSpec.describe("Order Creation") do
       end
       expect(page).to have_content("Cart: 0")
       expect(page).to have_content("Your order has been created")
-      save_and_open_page
     end
 
 
