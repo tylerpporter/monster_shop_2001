@@ -35,4 +35,16 @@ class Cart
     Item.find(item_id).inventory <= @contents[item_id]
   end
 
+  def decrement(item_id)
+    @contents[item_id] -= 1
+  end
+
+  def remove(item_id)
+    @contents.delete(item_id)
+  end
+
+  def quantity_zero?(item_id)
+    @contents[item_id] <= 0
+  end
+
 end
