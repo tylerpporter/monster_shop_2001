@@ -4,7 +4,7 @@ class PasswordsController < ApplicationController
 
   def update
     @user = current_user
-    @user.update(user_params)
+    @user.update(password_params)
     if @user.save
       flash[:success] = "Your Password Has Been Updated"
       redirect_to "/profile"
@@ -16,7 +16,7 @@ class PasswordsController < ApplicationController
 
   private
 
-  def user_params
+  def password_params
     params.permit(:password, :password_confirmation)
   end
 end
