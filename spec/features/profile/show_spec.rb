@@ -1,31 +1,39 @@
 require "rails_helper"
 
-RSpec.describe "When i visit /profile" do
+RSpec.describe "As a registered user when i visit /profile" do
   before(:each) do
-    visit "/register"
-    within(".form") do
-      fill_in :name, with: "Ryan Camp"
-      fill_in :address, with: "1163 S Dudley St"
-      fill_in :city, with: "Lakewood"
-      fill_in :state, with: "CO"
-      fill_in :zip, with: "80232"
+    @user = User.create(name: "regular_test_user",
+                        address: "1163 S Dudley St",
+                        city: "Lakewood",
+                        state: "CO",
+                        zip: "80232",
+                        email: "campryan@comcast.net",
+                        password: "password",
+                        password_confirmation: "password",
+                        role: 0)
+
+    visit '/login'
+
+    within(".login_form") do
       fill_in :email, with: "campryan@comcast.net"
       fill_in :password, with: "password"
-      fill_in :password_confirmation, with: "password"
       click_button("Submit")
     end
-    @user = User.last
-  end
-  it "I can see my user name displayed" do
-    expect(page).to have_content("Hello, #{@user.name}")
   end
 
-  it "I can navigate away and come back to same user profile" do
-    expect(page).to have_content("Hello, #{@user.name}")
+  context 'Then I see all of my profile data on the page except my password' do
+    it 'And I see a link to edit my profile data' do
+      expect(current_path).to eql("/profile")
+      expect(page).to have_content("You are logged in")
 
-    visit "/register"
-    visit "/profile"
+      expect(page).to have_content("regular_test_user")
+      expect(page).to have_content("1163 S Dudley St")
+      expect(page).to have_content("Lakewood")
+      expect(page).to have_content("CO")
+      expect(page).to have_content("80232")
+      expect(page).to have_content("campryan@comcast.net")
 
-    expect(page).to have_content("Hello, #{@user.name}")
+      page.has_link?("Edit Profile")
+    end
   end
 end

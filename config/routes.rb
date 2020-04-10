@@ -39,6 +39,11 @@ Rails.application.routes.draw do
 
   #profile
   get '/profile', to: 'profile#show'
+  get '/profile/edit', to: 'profile#edit'
+  patch '/profile', to: 'profile#update'
+
+  #password_reset
+  resource :password, only: [:edit, :update]
 
   #admin_user
   namespace :admin do
