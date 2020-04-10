@@ -19,6 +19,16 @@ describe Item, type: :model do
 
   describe "instance methods" do
     before(:each) do
+      @user = User.create(name: "regular_test_user",
+                         address: "1163 S Dudley St",
+                         city: "Lakewood",
+                         state: "CO",
+                         zip: "80232",
+                         email: "campryan@comcast.net",
+                         password: "password",
+                         password_confirmation: "password",
+                         role: 0)
+
       @bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @chain = @bike_shop.items.create(name: "Chain", description: "It'll never break!", price: 50, image: "https://www.rei.com/media/b61d1379-ec0e-4760-9247-57ef971af0ad?size=784x588", inventory: 5)
       @tire = @bike_shop.items.create(name: "Tire", description: "It'll never pop!", price: 50, image: "https://www.rei.com/media/b61d1379-ec0e-4760-9247-57ef971af0ad?size=784x588", inventory: 5)
@@ -29,7 +39,7 @@ describe Item, type: :model do
       @review_4 = @chain.reviews.create(title: "Not too impressed", content: "v basic bike shop", rating: 2)
       @review_5 = @chain.reviews.create(title: "Okay place :/", content: "Brian's cool and all but just an okay selection of items", rating: 3)
 
-      @order =   @order1 = Order.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
+      @order1 = @user.orders.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
 
       ItemOrder.create(item: @tire, order: @order1, price: @tire.price, quantity: 1200)
       ItemOrder.create(item: @tire, order: @order1, price: @tire.price, quantity: 1100)
@@ -49,7 +59,7 @@ describe Item, type: :model do
 
     it 'no orders' do
       expect(@chain.no_orders?).to eq(true)
-      order = Order.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order = @user.orders.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
       expect(@chain.no_orders?).to eq(false)
     end
@@ -62,6 +72,15 @@ describe Item, type: :model do
 
   describe "class methods" do
     before(:each) do
+      @user = User.create(name: "regular_test_user",
+                         address: "1163 S Dudley St",
+                         city: "Lakewood",
+                         state: "CO",
+                         zip: "80232",
+                         email: "campryan@comcast.net",
+                         password: "password",
+                         password_confirmation: "password",
+                         role: 0)
       @bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
 
       @bike_item1 = @bike_shop.items.create(name: "bike item 1", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
@@ -71,7 +90,7 @@ describe Item, type: :model do
       @bike_item5 = @bike_shop.items.create(name: "bike item 5", description: "Description for bike item 5", price: 23, image: "https://www.bikesonline.com/assets/full/S00258.jpg?1557515068", inventory: 25)
       @bike_item6 = @bike_shop.items.create(active?: false, name: "bike item 6", description: "Description for bike item 6", price: 23, image: "https://www.bikesonline.com/assets/full/S00258.jpg?1557515068", inventory: 25)
 
-      @order1 = Order.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
+      @order1 = @user.orders.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
 
       ItemOrder.create(item: @bike_item1, order: @order1, price: @bike_item1.price, quantity: 1200)
       ItemOrder.create(item: @bike_item2, order: @order1, price: @bike_item2.price, quantity: 1100)

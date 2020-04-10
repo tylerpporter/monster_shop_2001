@@ -59,6 +59,15 @@ RSpec.describe "Items Index Page" do
     end
 
     it "I can see a section that shows top 5 quanitity purchased and quantity bought of each" do
+      user = User.create(name: "regular_test_user",
+                         address: "1163 S Dudley St",
+                         city: "Lakewood",
+                         state: "CO",
+                         zip: "80232",
+                         email: "campryan@comcast.net",
+                         password: "password",
+                         password_confirmation: "password",
+                         role: 0)
       dog_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
       dog_item1 = dog_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
       dog_item2 = dog_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 21)
@@ -67,7 +76,7 @@ RSpec.describe "Items Index Page" do
       dog_item5 = dog_shop.items.create(name: "dog item 5", description: "Description for dog item 5", price: 55, image: "https://petco.scene7.com/is/image/PETCO/2763773-center-1", inventory: 100)
       dog_item6 = dog_shop.items.create(name: "dog item 6", description: "Description for dog item 6", price: 55, image: "https://petco.scene7.com/is/image/PETCO/2763773-center-1", inventory: 100)
       dog_item7 = dog_shop.items.create(name: "dog item 7", description: "Description for dog item 7", price: 55, image: "https://petco.scene7.com/is/image/PETCO/2763773-center-1", inventory: 100)
-      order1 = Order.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
+      order1 = user.orders.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
       ItemOrder.create(item: dog_item1, order: order1, price: dog_item1.price, quantity: 1200)
       ItemOrder.create(item: dog_item2, order: order1, price: dog_item2.price, quantity: 1100)
       ItemOrder.create(item: dog_item3, order: order1, price: dog_item3.price, quantity: 1500)
@@ -91,6 +100,15 @@ RSpec.describe "Items Index Page" do
     end
 
     it "I can see a section that shows top 5 quanitity purchased and quantity bought of each" do
+      user = User.create(name: "regular_test_user",
+                         address: "1163 S Dudley St",
+                         city: "Lakewood",
+                         state: "CO",
+                         zip: "80232",
+                         email: "campryan@comcast.net",
+                         password: "password",
+                         password_confirmation: "password",
+                         role: 0)
       dog_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
       dog_item1 = dog_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
       dog_item2 = dog_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 21)
@@ -99,7 +117,7 @@ RSpec.describe "Items Index Page" do
       dog_item5 = dog_shop.items.create(name: "dog item 5", description: "Description for dog item 5", price: 55, image: "https://petco.scene7.com/is/image/PETCO/2763773-center-1", inventory: 100)
       dog_item6 = dog_shop.items.create(name: "dog item 6", description: "Description for dog item 6", price: 55, image: "https://petco.scene7.com/is/image/PETCO/2763773-center-1", inventory: 100)
       dog_item7 = dog_shop.items.create(name: "dog item 7", description: "Description for dog item 7", price: 55, image: "https://petco.scene7.com/is/image/PETCO/2763773-center-1", inventory: 100)
-      order1 = Order.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
+      order1 = user.orders.create(name: "Ryan", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
       ItemOrder.create(item: dog_item1, order: order1, price: dog_item1.price, quantity: 1200)
       ItemOrder.create(item: dog_item2, order: order1, price: dog_item2.price, quantity: 1100)
       ItemOrder.create(item: dog_item3, order: order1, price: dog_item3.price, quantity: 1500)

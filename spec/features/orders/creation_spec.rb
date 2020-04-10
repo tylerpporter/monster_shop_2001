@@ -54,7 +54,7 @@ RSpec.describe("Order Creation") do
       click_button "Create Order"
 
       new_order = Order.last
-require "pry"; binding.pry
+
       expect(current_path).to eq("/orders/#{new_order.id}")
 
       within '.shipping-address' do
