@@ -1,11 +1,5 @@
-# When I fill out all information on the new order page
-# And click on 'Create Order'
-# An order is created and saved in the database
-# And I am redirected to that order's show page with the following information:
-#
-# - Details of the order:
+require 'rails_helper'
 
-# - the date when the order was created
 RSpec.describe("Order Creation") do
   describe "When I check out from my cart" do
     before(:each) do
@@ -60,7 +54,7 @@ RSpec.describe("Order Creation") do
       click_button "Create Order"
 
       new_order = Order.last
-
+require "pry"; binding.pry
       expect(current_path).to eq("/orders/#{new_order.id}")
 
       within '.shipping-address' do
