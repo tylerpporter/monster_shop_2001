@@ -10,7 +10,7 @@ class PasswordsController < ApplicationController
       redirect_to "/profile"
     else
       flash[:error] = "Please enter valid & matching passwords"
-      redirect_to "/password/edit"
+      render :edit
     end
   end
 
