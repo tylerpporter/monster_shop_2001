@@ -1,0 +1,11 @@
+<h1>My Orders</h1>
+
+<% @orders.each do |order| %>
+  <section id='order-<%= order.id %>'>
+    <%= order.name %>
+    <%= order.address %>
+    <%= order.city %>
+    <%= order.state %>
+    <%= order.zip %>
+  </section>
+<% end %>
