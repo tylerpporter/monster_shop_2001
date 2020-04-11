@@ -1,14 +1,24 @@
-# When I fill out all information on the new order page
-# And click on 'Create Order'
-# An order is created and saved in the database
-# And I am redirected to that order's show page with the following information:
-#
-# - Details of the order:
+require 'rails_helper'
 
-# - the date when the order was created
 RSpec.describe("Order Creation") do
   describe "When I check out from my cart" do
     before(:each) do
+      @merchant = User.create(name: "merchant_test_user",
+                             address: "222 Merchant St",
+                             city: "Lakewood",
+                             state: "WA",
+                             zip: "80232",
+                             email: "ryan@comcast.net",
+                             password: "123password",
+                             password_confirmation: "123password",
+                             role: 1)
+      visit '/login'
+
+      within(".login_form") do
+        fill_in :email, with: "ryan@comcast.net"
+        fill_in :password, with: "123password"
+        click_button("Submit")
+      end
       @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
@@ -45,48 +55,18 @@ RSpec.describe("Order Creation") do
 
       new_order = Order.last
 
-      expect(current_path).to eq("/orders/#{new_order.id}")
-
-      within '.shipping-address' do
-        expect(page).to have_content(name)
-        expect(page).to have_content(address)
-        expect(page).to have_content(city)
-        expect(page).to have_content(state)
-        expect(page).to have_content(zip)
+      expect(current_path).to eq("/profile/orders")
+      within "#order-#{new_order.id}" do
+        expect(page).to have_content(new_order.name)
+        expect(page).to have_content(new_order.address)
+        expect(page).to have_content(new_order.city)
+        expect(page).to have_content(new_order.state)
+        expect(page).to have_content(new_order.zip)
       end
-
-      within "#item-#{@paper.id}" do
-        expect(page).to have_link(@paper.name)
-        expect(page).to have_link("#{@paper.merchant.name}")
-        expect(page).to have_content("$#{@paper.price}")
-        expect(page).to have_content("2")
-        expect(page).to have_content("$40")
-      end
-
-      within "#item-#{@tire.id}" do
-        expect(page).to have_link(@tire.name)
-        expect(page).to have_link("#{@tire.merchant.name}")
-        expect(page).to have_content("$#{@tire.price}")
-        expect(page).to have_content("1")
-        expect(page).to have_content("$100")
-      end
-
-      within "#item-#{@pencil.id}" do
-        expect(page).to have_link(@pencil.name)
-        expect(page).to have_link("#{@pencil.merchant.name}")
-        expect(page).to have_content("$#{@pencil.price}")
-        expect(page).to have_content("1")
-        expect(page).to have_content("$2")
-      end
-
-      within "#grandtotal" do
-        expect(page).to have_content("Total: $142")
-      end
-
-      within "#datecreated" do
-        expect(page).to have_content(new_order.created_at)
-      end
+      expect(page).to have_content("Cart: 0")
+      expect(page).to have_content("Your order has been created")
     end
+
 
     it 'i cant create order if info not filled out' do
       name = ""
