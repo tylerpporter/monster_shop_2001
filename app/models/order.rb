@@ -3,9 +3,19 @@ class Order <ApplicationRecord
 
   has_many :item_orders
   has_many :items, through: :item_orders
-  belongs_to :user 
+  belongs_to :user
 
   def grandtotal
     item_orders.sum('price * quantity')
+  end
+
+  def create_item_orders(cart_items)
+    cart_items.each do |item,quantity|
+      self.item_orders.create({
+      item: item,
+      quantity: quantity,
+      price: item.price
+      })
+    end
   end
 end

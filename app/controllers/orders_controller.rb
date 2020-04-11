@@ -22,16 +22,6 @@ class OrdersController <ApplicationController
     params.permit(:name, :address, :city, :state, :zip)
   end
 
-  def create_item_orders(order)
-    cart.items.each do |item,quantity|
-      order.item_orders.create({
-        item: item,
-        quantity: quantity,
-        price: item.price
-        })
-      end
-  end
-
   def successful_redirect
     session.delete(:cart)
     flash[:notice] = "Your order has been created"
@@ -39,7 +29,7 @@ class OrdersController <ApplicationController
   end
 
   def success(order)
-    create_item_orders(order)
+    order.create_item_orders(cart.items)
     successful_redirect
   end
 
