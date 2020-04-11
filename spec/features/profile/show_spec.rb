@@ -11,6 +11,10 @@ RSpec.describe "As a registered user when i visit /profile" do
                         password: "password",
                         password_confirmation: "password",
                         role: 0)
+    @meg = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+    @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+    @order1 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218)
+    @item_order1 = @order1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
 
     visit '/login'
 
@@ -36,4 +40,15 @@ RSpec.describe "As a registered user when i visit /profile" do
       page.has_link?("Edit Profile")
     end
   end
+
+  context "I have and order(s) placed in the system" do
+    it "I can click my orders and it takes me to /profile/orders" do
+      visit profile_path
+
+      click_link 'My Orders'
+
+      expect(current_path).to eq('/profile/orders')
+    end
+  end
+
 end
