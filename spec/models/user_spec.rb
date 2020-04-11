@@ -12,6 +12,10 @@ RSpec.describe User do
     it { should have_secure_password }
   end
 
+  describe 'relationships' do
+    it {should have_many :orders}
+  end
+
   describe "roles" do
     it "create regular user" do
       user = User.create(name: "regular_test_user",

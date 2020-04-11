@@ -46,6 +46,9 @@ Rails.application.routes.draw do
   #password_reset
   resource :password, only: [:edit, :update]
 
+  #profile_orders
+  get '/profile/orders', to: 'orders#index'
+
   #admin_user
   namespace :admin do
     get '/', to: "dashboard#show"
