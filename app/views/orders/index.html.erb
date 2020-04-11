@@ -7,7 +7,7 @@
     <%= order.city %>
     <%= order.state %>
     <%= order.zip %>
-    <p>Order ID: <%= link_to order.id, order_path(order) %></p>
+    <p>Order ID: <%= link_to order.id, profile_orders_path(order) %></p>
     <p>Created At: <%= order.created_at %></p>
     <p>Updated At: <%= order.updated_at %></p>
     <p>Status: <%= order.status %></p>

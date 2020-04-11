@@ -47,7 +47,8 @@ Rails.application.routes.draw do
   resource :password, only: [:edit, :update]
 
   #profile_orders
-  get '/profile/orders', to: 'orders#index' #come back, figure out route refactor 
+  get '/profile/orders', to: 'orders#index'
+  get '/profile/orders/:id', to: 'orders#show' #come back, figure out route refactor 
 
   #admin_user
   namespace :admin do
