@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get '/cart', to: 'cart#show'
   delete '/cart', to: 'cart#empty'
   delete '/cart/:item_id', to: 'cart#remove_item'
+  patch '/cart/:item_id', to: 'cart#add_or_sub'
 
   #orders
   resources :orders, only: [:new, :create, :show]
@@ -39,6 +40,11 @@ Rails.application.routes.draw do
 
   #profile
   get '/profile', to: 'profile#show'
+  get '/profile/edit', to: 'profile#edit'
+  patch '/profile', to: 'profile#update'
+
+  #password_reset
+  resource :password, only: [:edit, :update]
 
   #profile_orders
   get '/profile/orders', to: 'orders#index'

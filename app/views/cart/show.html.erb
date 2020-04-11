@@ -1,8 +1,9 @@
 <h1>Cart</h1>
 
-<% if !@items.empty? %>
+<% if @items.present? %>
 <center>
 <table class = "cart-items">
+  <!-- header for table  -->
   <tr>
     <th>Item</th>
     <th>Sold By</th>
@@ -10,8 +11,10 @@
     <th>Quantity</th>
     <th>Subtotal</th>
   </tr>
-  <% @items.each do |item,quantity| %>
-    <tr id= "cart-item-<%=item.id%>">
+  <!-- start of iteration -->
+  <% @items.each do |item, quantity| %>
+    <tr id="cart-item-<%=item.id%>">
+      <!-- item name and picture  1st column-->
       <td>
         <p align = "center">
           <span>
@@ -20,26 +23,33 @@
           </span>
         </p>
       </td>
+      <!-- merchant name 2nd column -->
       <td>
         <p align = "center">
           <%=link_to item.merchant.name, "/merchants/#{item.merchant.id}"%>
         </p>
       </td>
+      <!-- price of item 3rd column -->
       <td>
         <p><%=number_to_currency(item.price)%></p>
       </td>
+      <!-- quantity of item in cart & remove link 4th column -->
       <td>
         <center>
-          <p><%=quantity%></p>
-          <p><%= link_to "Remove", "/cart/#{item.id}",method: :delete %></p>
+          <p><%= quantity %></p>
+          <p><span><%= link_to "-1", "/cart/#{item.id}", method: :patch %></span>
+          |  <%= link_to "Remove", "/cart/#{item.id}",method: :delete %>  |
+          <span><%= link_to "+1", "/cart/#{item.id}?add?=true", method: :patch %></span></p>
         </center>
-        </td>
+      </td>
+      <!-- subtotal of cart 5th column -->
       <td>
         <p><%=number_to_currency(cart.subtotal(item))%></p>
-    </td>
+      </td>
     </tr>
   <% end %>
 </table>
+<!-- end of table  -->
   <p>Total: <%= number_to_currency(cart.total) %></p>
   <p><%= link_to "Empty Cart", "/cart", method: :delete %></p>
   <p><%= link_to "Checkout", "/orders/new", method: :get unless visitor?%></p>
