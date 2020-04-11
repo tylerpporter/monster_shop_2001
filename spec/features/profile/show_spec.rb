@@ -13,8 +13,10 @@ RSpec.describe "As a registered user when i visit /profile" do
                         role: 0)
     @meg = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+    @item2 = @meg.items.create(name: "Fish", description: "They'll never pop!", price: 50, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
     @order1 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218)
     @item_order1 = @order1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+    @item_order2 = @order1.item_orders.create!(item: @item2, price: @item2.price, quantity: 3)
 
     visit '/login'
 
@@ -48,6 +50,19 @@ RSpec.describe "As a registered user when i visit /profile" do
       click_link 'My Orders'
 
       expect(current_path).to eq('/profile/orders')
+    end
+    it "I see a list of all orders including all of their info" do
+      visit '/profile/orders'
+
+      within "#order-#{@order1.id}" do
+        expect(page).to have_link(@order1.id)
+        expect(page).to have_content("Created At: #{@order1.created_at}")
+        expect(page).to have_content("Updated At: #{@order1.updated_at}")
+        expect(page).to have_content("Status: #{@order1.status}")
+        expect(page).to have_content("Total Quantity Ordered: 5") #sum of all item_order quantities
+        expect(page).to have_content("Grand Total: 350") #grand total
+      end
+
     end
   end
 
