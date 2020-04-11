@@ -69,7 +69,34 @@ RSpec.describe "As a registered user when i visit /profile" do
       within "#order-#{@order1.id}" do
         click_link @order1.id
       end
-      expect(current_path).to eq(profile_orders_path(@order1))
+      expect(current_path).to eq("/profile/orders/#{@order1.id}")
+    end
+    describe "profile order show page"
+    it "I see all of that orders info" do
+      visit "profile/orders/#{@order1.id}"
+
+      expect(page).to have_content(@order1.id)
+      expect(page).to have_content("Created At: #{@order1.created_at}")
+      expect(page).to have_content("Updated At: #{@order1.updated_at}")
+      expect(page).to have_content("Status: #{@order1.status}")
+      expect(page).to have_content("Total Quantity Ordered: 5")
+      expect(page).to have_content("Grand Total: 350")
+      within "#item-#{@tire.id}" do
+        expect(page).to have_content(@tire.name)
+        expect(page).to have_content(@tire.description)
+        expect(page).to have_css("img[src='#{@tire.image}']")
+        expect(page).to have_content("Quantity: 2")
+        expect(page).to have_content("Price: $#{@tire.price}.00")
+        expect(page).to have_content("Subtotal: $200.00")
+      end
+      within "#item-#{@item2.id}" do
+        expect(page).to have_content(@item2.name)
+        expect(page).to have_content(@item2.description)
+        expect(page).to have_css("img[src='#{@item2.image}']")
+        expect(page).to have_content("Quantity: 3")
+        expect(page).to have_content("Price: $#{@item2.price}.00")
+        expect(page).to have_content("Subtotal: $150.00")
+      end
     end
   end
 

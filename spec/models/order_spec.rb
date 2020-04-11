@@ -55,5 +55,6 @@ describe Order, type: :model do
       @order_1.create_item_orders({item1 => 2, item2 => 1})
       expect(@order_1.total_item_quantity).to eq(8)
     end
+    
   end
 end
