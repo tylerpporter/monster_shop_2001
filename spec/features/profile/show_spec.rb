@@ -59,8 +59,8 @@ RSpec.describe "As a registered user when i visit /profile" do
         expect(page).to have_content("Created At: #{@order1.created_at}")
         expect(page).to have_content("Updated At: #{@order1.updated_at}")
         expect(page).to have_content("Status: #{@order1.status}")
-        expect(page).to have_content("Total Quantity Ordered: 5") #sum of all item_order quantities
-        expect(page).to have_content("Grand Total: 350") #grand total
+        expect(page).to have_content("Total Quantity Ordered: 5") 
+        expect(page).to have_content("Grand Total: 350")
       end
 
     end
