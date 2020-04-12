@@ -85,17 +85,14 @@ RSpec.describe 'As a registered user' do
     end
     it "I see a link to cancel the order" do
       visit "profile/orders/#{@order1.id}"
-      @item_order1.status = "fulfilled"
-
-      expect(@meg.items.first.inventory).to eq(10)
 
       click_link "Cancel Order"
 
-      expected = @order1.item_orders.all? {|item_order| item_order.status == "unfulfilled"}
-
+      order = Order.find(@order1.id)
+      expected = order.item_orders.all? {|item_order| item_order.status == "unfulfilled"}
       expect(expected).to eq(true)
-      expect(@order1.status).to eq("cancelled")
-      expect(@meg.items.first.inventory).to eq(12)
+      expect(order.item_orders.first.item.inventory).to eq(14)
+      expect(order.status).to eq("cancelled")
       expect(current_path).to eq('/profile')
       expect(page).to have_content("Your order (Order ID: #{@order1.id}) has been cancelled.")
     end
