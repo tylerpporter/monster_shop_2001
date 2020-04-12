@@ -1,13 +1,14 @@
 class Merchant <ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :item_orders, through: :items
+  has_many :merchant_employees
+  has_many :users, through: :merchant_employees
 
   validates_presence_of :name,
                         :address,
                         :city,
                         :state,
                         :zip
-
 
   def no_orders?
     item_orders.empty?
