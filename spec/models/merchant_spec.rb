@@ -17,13 +17,23 @@ describe Merchant, type: :model do
 
   describe 'instance methods' do
     before(:each) do
+      @user = User.create(name: "regular_test_user",
+                         address: "1163 S Dudley St",
+                         city: "Lakewood",
+                         state: "CO",
+                         zip: "80232",
+                         email: "campryan@comcast.net",
+                         password: "password",
+                         password_confirmation: "password",
+                         role: 0)
+
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
     end
     it 'no_orders' do
       expect(@meg.no_orders?).to eq(true)
 
-      order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
       item_order_1 = order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
 
       expect(@meg.no_orders?).to eq(false)
@@ -43,9 +53,9 @@ describe Merchant, type: :model do
 
     it 'distinct_cities' do
       chain = @meg.items.create(name: "Chain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
-      order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
-      order_2 = Order.create!(name: 'Brian', address: '123 Brian Ave', city: 'Denver', state: 'CO', zip: 17033)
-      order_3 = Order.create!(name: 'Dao', address: '123 Mike Ave', city: 'Denver', state: 'CO', zip: 17033)
+      order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order_2 = @user.orders.create!(name: 'Brian', address: '123 Brian Ave', city: 'Denver', state: 'CO', zip: 17033)
+      order_3 = @user.orders.create!(name: 'Dao', address: '123 Mike Ave', city: 'Denver', state: 'CO', zip: 17033)
       order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
       order_2.item_orders.create!(item: chain, price: chain.price, quantity: 2)
       order_3.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
@@ -55,24 +65,15 @@ describe Merchant, type: :model do
     end
 
     it 'can hire employees' do
-      user = User.create(name: "regular_test_user",
-                         address: "1163 S Dudley St",
-                         city: "Lakewood",
-                         state: "CO",
-                         zip: "80232",
-                         email: "campryan@comcast.net",
-                         password: "password",
-                         password_confirmation: "password",
-                         role: 0)
 
-      @meg.hire(user)
-      user.reload
+      @meg.hire(@user)
+      @user.reload
 
-      expect(user.role).to eq("merchant")
-      expect(user.merchant).to eq(@meg)
-      expect(@meg.users).to eq([user])
+      expect(@user.role).to eq("merchant")
+      expect(@user.merchant).to eq(@meg)
+      expect(@meg.users).to eq([@user])
       expect(MerchantEmployee.last.merchant_id).to eq(@meg.id)
-      expect(MerchantEmployee.last.user_id).to eq(user.id)
+      expect(MerchantEmployee.last.user_id).to eq(@user.id)
     end
   end
 end
