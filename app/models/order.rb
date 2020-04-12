@@ -18,4 +18,8 @@ class Order <ApplicationRecord
       })
     end
   end
+
+  def total_items_for(merchant)
+    merchant.item_orders.where(order_id: self.id).sum(:quantity)
+   end
 end
