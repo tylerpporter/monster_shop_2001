@@ -14,6 +14,7 @@ RSpec.describe 'As a registered user' do
     @meg = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
     @item2 = @meg.items.create(name: "Fish", description: "They'll never pop!", price: 50, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+
     @order1 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218)
     @item_order1 = @order1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
     @item_order2 = @order1.item_orders.create!(item: @item2, price: @item2.price, quantity: 3)
@@ -81,6 +82,22 @@ RSpec.describe 'As a registered user' do
         expect(page).to have_content("Price: $#{@item2.price}.00")
         expect(page).to have_content("Subtotal: $150.00")
       end
+    end
+    it "I see a link to cancel the order" do
+      visit "profile/orders/#{@order1.id}"
+      @item_order1.status = "fulfilled"
+
+      expect(@meg.items.first.inventory).to eq(10)
+
+      click_link "Cancel Order"
+
+      expected = @order1.item_orders.all? {|item_order| item_order.status == "unfulfilled"}
+
+      expect(expected).to eq(true)
+      expect(@order1.status).to eq("cancelled")
+      expect(@meg.items.first.inventory).to eq(12)
+      expect(current_path).to eq('/profile')
+      expect(page).to have_content("Your order (Order ID: #{@order1.id}) has been cancelled.")
     end
   end
 end
