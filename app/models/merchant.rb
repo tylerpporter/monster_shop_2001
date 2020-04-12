@@ -26,4 +26,8 @@ class Merchant <ApplicationRecord
     item_orders.distinct.joins(:order).pluck(:city)
   end
 
+  def hire(user)
+    merchant_employees.create(user: user)
+    user.update(role: 1)
+  end
 end
