@@ -77,8 +77,14 @@ RSpec.describe 'As a merchant employee' do
       end
     end
 
-    xit 'I can click on order id link within block' do
+    it 'I can click on order id link within block' do
+      visit '/merchant'
 
+      within("#order-#{@order2.id}") do
+        click_link @order2.id
+      end
+
+      expect(current_path).to eql("/merchant/orders/#{@order2.id}")
     end
   end
 end
