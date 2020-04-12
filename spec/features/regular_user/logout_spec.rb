@@ -55,20 +55,25 @@ RSpec.describe 'As a registered user, merchant, or admin' do
 
   context 'When I visit the logout path I am redirected to root' do
     it 'And I see a flash message that I am logged out' do
-      merchant = User.create(name: "merchant_test_user",
-                             address: "222 Merchant St",
-                             city: "Lakewood",
-                             state: "WA",
-                             zip: "80232",
-                             email: "ryan@comcast.net",
-                             password: "123password",
-                             password_confirmation: "123password",
-                             role: 1)
+      @bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 23137)
+
+      @shop_employee = User.create(name: "Bob",
+                                   address: "123 Glorious Way",
+                                   city: "Stuck",
+                                   state: "SomeState",
+                                   zip: '80122',
+                                   email: "bob@example.com",
+                                   password: "password",
+                                   password_confirmation: "password",
+                                   role: 0)
+
+      @bike_shop.hire(@shop_employee)
+
       visit '/login'
 
       within(".login_form") do
-        fill_in :email, with: "ryan@comcast.net"
-        fill_in :password, with: "123password"
+        fill_in :email, with: "bob@example.com"
+        fill_in :password, with: "password"
         click_button("Submit")
       end
 

@@ -51,13 +51,13 @@ Rails.application.routes.draw do
 
   #admin_user
   namespace :admin do
-    get '/', to: "dashboard#show"
+    get '/', to: 'dashboard#show'
     get '/users', to: 'users#index'
   end
 
   #merchant_user
   namespace :merchant do
-    get '/', to: "dashboard#show"
+    get '/', to: 'dashboard#show'
+    get '/orders/:id', to: 'orders#show'
   end
-
 end

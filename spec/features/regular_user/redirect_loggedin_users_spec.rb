@@ -37,17 +37,21 @@ RSpec.describe 'As a registered user, merchant, or admin' do
   describe 'When I visit the login path as a merchant user' do
     context 'I am redirected to my merchant dashboard' do
       it 'And I see a flash message that tells me I am already logged in' do
-        merchant = User.create(name: "merchant_test_user",
-                               address: "222 Merchant St",
-                               city: "Lakewood",
-                               state: "WA",
-                               zip: "80232",
-                               email: "ryan@comcast.net",
-                               password: "123password",
-                               password_confirmation: "123password",
-                               role: 1)
+        @bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 23137)
 
-        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+        @shop_employee = User.create(name: "Bob",
+                                     address: "123 Glorious Way",
+                                     city: "Stuck",
+                                     state: "SomeState",
+                                     zip: '80122',
+                                     email: "bob@example.com",
+                                     password: "password",
+                                     password_confirmation: "password",
+                                     role: 0)
+
+        @bike_shop.hire(@shop_employee)
+
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@shop_employee)
 
         visit '/login'
 

@@ -18,4 +18,13 @@ class Order <ApplicationRecord
       })
     end
   end
+
+ def total_items_for(merchant)
+    x = merchant.item_orders.where(order_id: self.id).sum(:quantity)
+ end
+
+ def total_value_for(merchant)
+  x = merchant.item_orders.where(order_id: self.id)
+  x.sum { |io| io.price * io.quantity }.to_i
+ end
 end
