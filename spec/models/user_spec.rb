@@ -12,6 +12,11 @@ RSpec.describe User do
     it { should have_secure_password }
   end
 
+  describe "relationships" do
+    it { should have_one(:merchant_employee) }
+    it { should have_one(:merchant).through(:merchant_employee) }
+  end
+
   describe "roles" do
     it "create regular user" do
       user = User.create(name: "regular_test_user",
