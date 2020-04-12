@@ -30,4 +30,9 @@ class Merchant <ApplicationRecord
     merchant_employees.create(user: user)
     user.update(role: 1)
   end
+
+  def pending_orders
+    order_ids = item_orders.pluck(:order_id).uniq
+    Order.where(id: order_ids)
+  end
 end
