@@ -54,5 +54,25 @@ describe Merchant, type: :model do
       expect(@meg.distinct_cities).to include("Denver")
     end
 
+    it 'can hire employees' do
+      user = User.create(name: "regular_test_user",
+                         address: "1163 S Dudley St",
+                         city: "Lakewood",
+                         state: "CO",
+                         zip: "80232",
+                         email: "campryan@comcast.net",
+                         password: "password",
+                         password_confirmation: "password",
+                         role: 0)
+
+      @meg.hire(user)
+      user.reload
+
+      expect(user.role).to eq("merchant")
+      expect(user.merchant).to eq(@meg)
+      expect(@meg.users).to eq([user])
+      expect(MerchantEmployee.last.merchant_id).to eq(@meg.id)
+      expect(MerchantEmployee.last.user_id).to eq(user.id)
+    end
   end
 end
