@@ -19,12 +19,8 @@ class OrdersController <ApplicationController
   def update
     order = Order.find(params[:id])
     order.update(update_params)
-    order.item_orders.each do |item_order|
-      item_order.update(status: "unfulfilled")
-      item_order.item.update(inventory: item_order.item.inventory += item_order.quantity)
-    end
-    flash[:notice] = "Your order (Order ID: #{params[:id]}) has been cancelled."
-    redirect_to "/profile"
+    cancel_item_order(order)
+    cancel_order_redirect 
   end
 
   private
@@ -51,6 +47,18 @@ class OrdersController <ApplicationController
   def failure
     flash[:notice] = "Please complete address form to create an order."
     render :new
+  end
+
+  def cancel_item_order(order)
+    order.item_orders.each do |item_order|
+      item_order.update(status: "unfulfilled")
+      item_order.item.update(inventory: item_order.item.inventory += item_order.quantity)
+    end
+  end
+
+  def cancel_order_redirect
+    flash[:notice] = "Your order (Order ID: #{params[:id]}) has been cancelled."
+    redirect_to "/profile"
   end
 
 end
