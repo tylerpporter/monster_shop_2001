@@ -30,7 +30,7 @@ describe Order, type: :model do
       @brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 
       @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
-      @chain = @meg.items.create(name: "Gator Chain", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      @chain = @meg.items.create(name: "Gator Chain", description: "They'll never pop!", price: 50, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
       @pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
 
       @order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
@@ -40,7 +40,7 @@ describe Order, type: :model do
       @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
     end
     it 'grandtotal' do
-      expect(@order_1.grandtotal).to eq(530)
+      expect(@order_1.grandtotal).to eq(380)
     end
 
     it 'create_item_orders' do
@@ -53,6 +53,10 @@ describe Order, type: :model do
 
     it 'can find item quanitities for a merchant' do
       expect(@order_1.total_items_for(@meg)).to eql(5)
+    end
+
+    it 'can find item values for a merchant' do
+      expect(@order_1.total_value_for(@meg)).to eql(350)
     end
   end
 end
