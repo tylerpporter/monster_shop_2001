@@ -20,7 +20,7 @@ class OrdersController <ApplicationController
     order = Order.find(params[:id])
     order.update(update_params)
     cancel_item_order(order)
-    cancel_order_redirect 
+    cancel_order_redirect
   end
 
   private
@@ -52,7 +52,7 @@ class OrdersController <ApplicationController
   def cancel_item_order(order)
     order.item_orders.each do |item_order|
       item_order.update(status: "unfulfilled")
-      item_order.item.update(inventory: item_order.item.inventory += item_order.quantity)
+      item_order.item.update(inventory: item_order.replace_inventory)
     end
   end
 
