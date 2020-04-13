@@ -20,7 +20,7 @@ class OrdersController <ApplicationController
     order = Order.find(params[:id])
     if cancelled?
       update_and_cancel(order)
-      #the elsif has not been tested 
+      #the elsif has not been tested
     elsif fulfilled?(order)
       order.update(update_params)
     end
@@ -61,8 +61,8 @@ class OrdersController <ApplicationController
   end
 
   def cancel_item_order(order)
+    order.item_orders.update_all(status: "unfulfilled")
     order.item_orders.each do |item_order|
-      item_order.update(status: "unfulfilled")
       item_order.item.update(inventory: item_order.replace_inventory)
     end
   end
