@@ -8,6 +8,7 @@
       <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
       <%= order.id %>
       <%= order.created_at %>
+      <%= button_to "Ship", "/orders/#{order.id}?status=shipped", method: :patch %>
     </section>
   <% end %>
 </section>
