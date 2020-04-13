@@ -16,11 +16,14 @@ class OrdersController <ApplicationController
     order.save ? success(order) : failure
   end
 
-  def update
+  def update #this action will have to be hit when a merchant fulfills all items and that action will need a query param ?status="packaged"
     order = Order.find(params[:id])
-    order.update(update_params)
-    cancel_item_order(order)
-    cancel_order_redirect
+    if cancelled?
+      update_and_cancel(order)
+      #the elsif has not been tested 
+    elsif fulfilled?(order)
+      order.update(update_params)
+    end
   end
 
   private
@@ -31,6 +34,14 @@ class OrdersController <ApplicationController
 
   def update_params
     params.permit(:status)
+  end
+
+  def cancelled?
+    params[:status] == "cancelled"
+  end
+
+  def fulfilled?(order)
+    order.item_orders.all? {|item_order| item_order.status == "fulfilled"}
   end
 
   def successful_redirect
@@ -59,6 +70,12 @@ class OrdersController <ApplicationController
   def cancel_order_redirect
     flash[:notice] = "Your order (Order ID: #{params[:id]}) has been cancelled."
     redirect_to "/profile"
+  end
+
+  def update_and_cancel(order)
+    order.update(update_params)
+    cancel_item_order(order)
+    cancel_order_redirect
   end
 
 end

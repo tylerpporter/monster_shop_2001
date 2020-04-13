@@ -90,6 +90,7 @@ RSpec.describe 'As a registered user' do
 
       order = Order.find(@order1.id)
       expected = order.item_orders.all? {|item_order| item_order.status == "unfulfilled"}
+
       expect(expected).to eq(true)
       expect(order.item_orders.first.item.inventory).to eq(14)
       expect(order.status).to eq("cancelled")
