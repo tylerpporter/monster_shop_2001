@@ -1,9 +1,46 @@
 <h1>Admin Dashboard</h1>
 
-<%= @orders.each do |order| %>
-  <section id="order-<%= order.id %>">
-    <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
-    <%= order.id %>
-    <%= order.created_at %>
-  </section>
-<% end %>
+
+<section class="status" id="packaged">
+  <h2>Packaged</h2>
+  <%= @orders.gather(:packaged).each do |order| %>
+    <section id="order-<%= order.id %>">
+      <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
+      <%= order.id %>
+      <%= order.created_at %>
+    </section>
+  <% end %>
+</section>
+
+<section class="status" id="pending">
+  <h2>Pending</h2>
+  <%= @orders.gather(:pending).each do |order| %>
+    <section id="order-<%= order.id %>">
+      <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
+      <%= order.id %>
+      <%= order.created_at %>
+    </section>
+  <% end %>
+</section>
+
+<section class="status" id="shipped">
+  <h2>Shipped</h2>
+  <%= @orders.gather(:shipped).each do |order| %>
+    <section id="order-<%= order.id %>">
+      <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
+      <%= order.id %>
+      <%= order.created_at %>
+    </section>
+  <% end %>
+</section>
+
+<section class="status" id="cancelled">
+  <h2>Cancelled</h2>
+  <%= @orders.gather(:cancelled).each do |order| %>
+    <section id="order-<%= order.id %>">
+      <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
+      <%= order.id %>
+      <%= order.created_at %>
+    </section>
+  <% end %>
+</section>
