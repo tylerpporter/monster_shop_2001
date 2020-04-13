@@ -57,5 +57,5 @@
   <p> <%= @order.created_at%></p>
 </section>
 <section>
-  <p><%= link_to "Cancel Order", "/profile/orders/#{@order.id}?status=cancelled", method: :patch %></p>
+  <p><%= link_to "Cancel Order", "/profile/orders/#{@order.id}?status=cancelled", method: :patch unless @order.shipped? %></p>
 </section>
