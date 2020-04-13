@@ -96,23 +96,41 @@ RSpec.describe "As an admin" do
         expect(page).to have_content(@order4.id)
       end
     end
+
+    it "I can click a link to ship an order if it's status is packaged" do
+      within "#pending" do
+        expect(page).to_not have_link("Ship")
+      end
+
+      within "#shipped" do
+        expect(page).to_not have_link("Ship")
+      end
+
+      within "#cancelled" do
+        expect(page).to_not have_link("Ship")
+      end
+
+      within "#packaged" do
+        within "#order-#{@order2.id}" do
+          click_button("Ship")
+        end
+      end
+
+      expect(page).to have_current_path("/admin")
+
+      within "#shipped" do
+        expect(page).to have_content(@order2.id)
+      end
+    end
+    
   end
 end
 
-# User Story 32, Admin can see all orders
+# User Story 33, Admin can "ship" an order
 #
 # As an admin user
-# When I visit my admin dashboard ("/admin")
-# Then I see all orders in the system.
-# For each order I see the following information:
-#
-# - user who placed the order, which links to admin view of user profile
-# - order id
-# - date the order was created
-#
-# Orders are sorted by "status" in this order:
-#
-# - packaged
-# - pending
-# - shipped
-# - cancelled
+# When I log into my dashboard, "/admin"
+# Then I see any "packaged" orders ready to ship.
+# Next to each order I see a button to "ship" the order.
+# When I click that button for an order, the status of that order changes to "shipped"
+# And the user can no longer "cancel" the order.
