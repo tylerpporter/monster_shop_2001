@@ -23,6 +23,9 @@ class OrdersController <ApplicationController
       #the elsif has not been tested
     elsif fulfilled?(order)
       order.update(update_params)
+    elsif params[:status] == "shipped"
+      order.update(update_params)
+      redirect_to admin_path
     end
   end
 
