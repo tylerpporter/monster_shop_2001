@@ -25,5 +25,7 @@ class Order <ApplicationRecord
     item_orders.sum(:quantity)
   end
 
-
+  def self.gather(status)
+    Order.where(status: status)
+  end
 end
