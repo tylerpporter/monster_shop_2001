@@ -58,7 +58,7 @@ RSpec.describe 'As a registered user' do
     end
     describe "Profile order show page"
     it "I see all of that order's info" do
-      visit "profile/orders/#{@order1.id}"
+      visit "/profile/orders/#{@order1.id}"
 
       expect(page).to have_content(@order1.id)
       expect(page).to have_content("Created At: #{@order1.created_at}")
@@ -84,7 +84,7 @@ RSpec.describe 'As a registered user' do
       end
     end
     it "I see a link to cancel the order" do
-      visit "profile/orders/#{@order1.id}"
+      visit "/profile/orders/#{@order1.id}"
 
       click_link "Cancel Order"
 
@@ -96,6 +96,14 @@ RSpec.describe 'As a registered user' do
       expect(order.status).to eq("cancelled")
       expect(current_path).to eq('/profile')
       expect(page).to have_content("Your order (Order ID: #{@order1.id}) has been cancelled.")
+    end
+
+    it "I cannot cancel a shipped order" do
+      shipped_order = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 2)
+
+      visit "/profile/orders/#{shipped_order.id}"
+
+      expect(page).to_not have_link "Cancel Order"
     end
   end
 end
