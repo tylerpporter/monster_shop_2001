@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   patch '/cart/:item_id', to: 'cart#add_or_sub'
 
   #orders
-  resources :orders, only: [:new, :create, :show]
+  resources :orders, only: [:new, :create, :show, :update]
 
   #register
   get '/register', to: 'register#new'
