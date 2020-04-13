@@ -1,5 +1,11 @@
 <section class = "shipping-address">
   <h1 align = "center">Shipping Info</h1>
+  <h2>Order ID: <%= @order.id %> </h2>
+  <p>Created At: <%= @order.created_at %></p>
+  <p>Updated At: <%= @order.updated_at %></p>
+  <p>Status: <%= @order.status %></p>
+  <p>Total Quantity Ordered: <%= @order.total_item_quantity %></p>
+  <p>Grand Total: <%= @order.grandtotal %></p>
   <table>
     <tr>
       <th>Name</th>
@@ -30,12 +36,15 @@
     </tr>
   <% @order.item_orders.each do |item_order|%>
     <tr>
-    <section id = "item-<%=item_order.item_id%>">
+      <section id="item-<%=item_order.item_id%>">
         <td><p><%=link_to item_order.item.name, "/items/#{item_order.item_id}"%></p></td>
+        <td><p><%= item_order.item.description %></p></td>
+        <td><p><%= image_tag item_order.item.image %></p></td>
+        <td><p>Quantity: <%= item_order.quantity %></p></td>
         <td><p><%= link_to item_order.item.merchant.name, "/merchants/#{item_order.item.merchant.id}"%></p></td>
-        <td><p><%= number_to_currency(item_order.price)%></p></td>
+        <td><p>Price: <%= number_to_currency(item_order.price)%></p></td>
         <td><p><%= item_order.quantity%></p></td>
-        <td><p><%= number_to_currency(item_order.subtotal)%></p></td>
+        <td><p>Subtotal: <%= number_to_currency(item_order.subtotal)%></p></td>
       </section>
     </tr>
   <% end %>
@@ -46,4 +55,7 @@
 </section>
 <section id="datecreated">
   <p> <%= @order.created_at%></p>
+</section>
+<section>
+  <p><%= link_to "Cancel Order", "/profile/orders/#{@order.id}?status=cancelled", method: :patch %></p>
 </section>

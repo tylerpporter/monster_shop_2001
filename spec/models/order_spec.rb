@@ -48,5 +48,13 @@ describe Order, type: :model do
       expect(@order_1.item_orders.count).to eq(4)
       expect(@order_1.item_orders[0].class).to eq(ItemOrder)
     end
+
+    it 'total_item_quantity' do
+      item1 = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      item2 = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
+      @order_1.create_item_orders({item1 => 2, item2 => 1})
+      expect(@order_1.total_item_quantity).to eq(8)
+    end
+
   end
 end
