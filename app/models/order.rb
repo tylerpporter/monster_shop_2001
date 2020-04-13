@@ -5,6 +5,12 @@ class Order <ApplicationRecord
   has_many :items, through: :item_orders
   belongs_to :user
 
+  enum status: { pending: 0, packaged: 1, shipped: 2, cancelled: 3 }
+
+  def self.gather(status)
+    Order.where(status: status)
+  end
+  
   def grandtotal
     item_orders.sum('price * quantity')
   end
@@ -27,4 +33,8 @@ class Order <ApplicationRecord
   x = merchant.item_orders.where(order_id: self.id)
   x.sum { |io| io.price * io.quantity }.to_i
  end
+
+  def total_item_quantity
+    item_orders.sum(:quantity)
+  end
 end
