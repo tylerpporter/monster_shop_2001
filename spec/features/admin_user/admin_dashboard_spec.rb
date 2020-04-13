@@ -27,14 +27,19 @@ RSpec.describe "As an admin" do
     @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
     @item2 = @meg.items.create(name: "Fish", description: "They'll never pop!", price: 50, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
 
-    @order1 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218)
+    @order1 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 0)
     @item_order1 = @order1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
     @item_order2 = @order1.item_orders.create!(item: @item2, price: @item2.price, quantity: 3)
 
-    @order2 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218)
-    @item_order1 = @order1.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
-    @item_order2 = @order1.item_orders.create!(item: @item2, price: @item2.price, quantity: 2)
+    @order2 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 1)
+    @item_order3 = @order2.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
+    @item_order4 = @order2.item_orders.create!(item: @item2, price: @item2.price, quantity: 2)
 
+    @order3 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 2)
+    @item_order5 = @order3.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
+
+    @order4 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 3)
+    @item_order6 = @order4.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
 
     visit '/login'
 
@@ -66,6 +71,30 @@ RSpec.describe "As an admin" do
         click_link(@order1.user.name)
       end
       expect(page).to have_current_path("/admin/users/#{@order1.user.id}")
+    end
+
+    it "orders are sorted by status" do
+      expect(page.all(".status")[0]).to have_content("Packaged")
+      expect(page.all(".status")[1]).to have_content("Pending")
+      expect(page.all(".status")[2]).to have_content("Shipped")
+      expect(page.all(".status")[3]).to have_content("Cancelled")
+
+
+      within "#packaged" do
+        expect(page).to have_content(@order2.id)
+      end
+
+      within "#pending" do
+        expect(page).to have_content(@order1.id)
+      end
+
+      within "#shipped" do
+        expect(page).to have_content(@order3.id)
+      end
+
+      within "#cancelled" do
+        expect(page).to have_content(@order4.id)
+      end
     end
   end
 end
