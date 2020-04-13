@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   get '/profile/orders', to: 'orders#index'
   get '/profile/orders/:id', to: 'orders#show' #come back, figure out route refactor
   patch '/profile/orders/:id', to: 'orders#update'
+  
   #admin_user
   namespace :admin do
     get '/', to: "dashboard#show"
@@ -58,7 +59,7 @@ Rails.application.routes.draw do
 
   #merchant_user
   namespace :merchant do
-    get '/', to: "dashboard#show"
+    get '/', to: 'dashboard#show'
+    get '/orders/:id', to: 'orders#show'
   end
-
 end

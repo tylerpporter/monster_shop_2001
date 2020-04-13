@@ -40,6 +40,13 @@ ActiveRecord::Schema.define(version: 20200413205541) do
     t.index ["merchant_id"], name: "index_items_on_merchant_id"
   end
 
+  create_table "merchant_employees", force: :cascade do |t|
+    t.bigint "merchant_id"
+    t.bigint "user_id"
+    t.index ["merchant_id"], name: "index_merchant_employees_on_merchant_id"
+    t.index ["user_id"], name: "index_merchant_employees_on_user_id"
+  end
+
   create_table "merchants", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -85,6 +92,8 @@ ActiveRecord::Schema.define(version: 20200413205541) do
   add_foreign_key "item_orders", "items"
   add_foreign_key "item_orders", "orders"
   add_foreign_key "items", "merchants"
+  add_foreign_key "merchant_employees", "merchants"
+  add_foreign_key "merchant_employees", "users"
   add_foreign_key "orders", "users"
   add_foreign_key "reviews", "items"
 end
