@@ -22,13 +22,6 @@ RSpec.describe "As an admin" do
                      password_confirmation: "password",
                      role: 0)
 
-    visit '/login'
-
-    within(".login_form") do
-      fill_in :email, with: "bob@example.com"
-      fill_in :password, with: "password"
-      click_button("Submit")
-    end
 
     @meg = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
@@ -41,27 +34,38 @@ RSpec.describe "As an admin" do
     @order2 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218)
     @item_order1 = @order1.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
     @item_order2 = @order1.item_orders.create!(item: @item2, price: @item2.price, quantity: 2)
+
+
+    visit '/login'
+
+    within(".login_form") do
+      fill_in :email, with: "bob@example.com"
+      fill_in :password, with: "password"
+      click_button("Submit")
+    end
   end
 
   describe "when I visit my admin dashboard," do
     it "then I see all the orders in the system" do
-      visit "/admin"
 
       within "#order-#{@order1.id}" do
-        
-        click_link "#{@user.name}"
-        expect(page).to have_current_path("/admin/users/#{@user.id}")
-        visit "/admin"
+        expect(page).to have_link(@order1.user.name)
+        expect(page).to have_content(@order1.id)
+        expect(page).to have_content(@order1.created_at)
       end
-
 
       within "#order-#{@order2.id}" do
-        expect(page).to have_content("Created At: #{@order1.created_at}")
-        expect(page).to have_content("Updated At: #{@order1.updated_at}")
-        expect(page).to have_content("Status: #{@order1.status}")
-        expect(page).to have_content("Total Quantity Ordered: 6")
-        expect(page).to have_content("Grand Total: 500")
+        expect(page).to have_link(@order2.user.name)
+        expect(page).to have_content(@order2.id)
+        expect(page).to have_content(@order2.created_at)
       end
+    end
+
+    it "user name link goes to admin view of user profile" do
+      within "#order-#{@order1.id}" do
+        click_link(@order1.user.name)
+      end
+      expect(page).to have_current_path("/admin/users/#{@order1.user.id}")
     end
   end
 end
