@@ -53,7 +53,7 @@ Rails.application.routes.draw do
   #admin_user
   namespace :admin do
     get '/', to: "dashboard#show"
-    get '/users', to: 'users#index'
+    resources :users, only: [:index, :show]
   end
 
   #merchant_user
