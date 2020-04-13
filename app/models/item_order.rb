@@ -7,4 +7,9 @@ class ItemOrder <ApplicationRecord
   def subtotal
     price * quantity
   end
+
+  def replace_inventory
+    item.inventory += quantity
+  end
+
 end
