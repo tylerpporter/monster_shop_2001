@@ -7,10 +7,13 @@
   <p>State: <%= @user.state %> </p>
   <p>Zip: <%= @user.zip %> </p>
   <p>Email: <%= @user.email %> </p>
-
   <%= link_to "Edit Profile", "/profile/edit" %>
 </section>
 
 <section class="reset-password-main-block" >
   <%= link_to "Reset Password", "/password/edit" %>
+</section>
+
+<section>
+  <%= link_to "My Orders", "/profile/orders" %>
 </section>

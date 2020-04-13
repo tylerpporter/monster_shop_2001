@@ -3,17 +3,21 @@ require "rails_helper"
 RSpec.describe "As a merchant level user" do
   describe "I have access to certain links in my nav bar." do
     before(:each) do
-      @merchant_user = User.create(name: "Bob",
+      @bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 23137)
+
+      @shop_employee = User.create(name: "Bob",
                                    address: "123 Glorious Way",
-                                   city: "Stupendous",
+                                   city: "Stuck",
                                    state: "SomeState",
                                    zip: '80122',
                                    email: "bob@example.com",
                                    password: "password",
                                    password_confirmation: "password",
-                                   role: 1)
+                                   role: 0)
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
+      @bike_shop.hire(@shop_employee)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@shop_employee)
 
       visit "/"
     end
@@ -89,7 +93,7 @@ RSpec.describe "As a merchant level user" do
 
     it "I can see text that confirms that I am logged in" do
       within(".topnav") do
-        expect(page).to have_content("Logged in as #{@merchant_user.name}")
+        expect(page).to have_content("Logged in as #{@shop_employee.name}")
       end
     end
 
