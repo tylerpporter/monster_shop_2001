@@ -62,14 +62,14 @@ RSpec.describe 'As a merchant employee' do
         expect(page).to have_content("Pending Orders:")
 
         within("#order-#{@order1.id}") do
-          expect(page).to have_link(@order1.id)
+          expect(page).to have_link("#{@order1.id}")
           expect(page).to have_content(@order1.created_at)
           expect(page).to have_content(5)
           expect(page).to have_content(290)
         end
 
         within("#order-#{@order2.id}") do
-          expect(page).to have_link(@order2.id)
+          expect(page).to have_link("#{@order2.id}")
           expect(page).to have_content(@order2.created_at)
           expect(page).to have_content(10)
           expect(page).to have_content(650)
@@ -81,10 +81,20 @@ RSpec.describe 'As a merchant employee' do
       visit '/merchant'
 
       within("#order-#{@order2.id}") do
-        click_link @order2.id
+        click_link "#{@order2.id}"
       end
 
       expect(current_path).to eql("/merchant/orders/#{@order2.id}")
+    end
+
+    it "I can click a link and be taken to my items index page" do
+      visit "/merchant"
+
+      within(".dashboard-links") do
+        click_link("My Items")
+      end
+
+      expect(current_path).to eql("/merchant/items")
     end
   end
 end
