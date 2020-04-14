@@ -125,12 +125,12 @@ RSpec.describe "As an admin level user." do
         expect(page).to have_content("State: #{@merchant1.state}")
       end
       within("#merchant-#{@merchant2.id}") do
-        expect(page).to have_link(@merchant2.id)
+        expect(page).to have_link(@merchant2.name)
         expect(page).to have_content("City: #{@merchant2.city}")
         expect(page).to have_content("State: #{@merchant2.state}")
       end
       within("#merchant-#{@merchant3.id}") do
-        expect(page).to have_link(@merchant3.id)
+        expect(page).to have_link(@merchant3.name)
         expect(page).to have_content("City: #{@merchant3.city}")
         expect(page).to have_content("State: #{@merchant3.state}")
       end
