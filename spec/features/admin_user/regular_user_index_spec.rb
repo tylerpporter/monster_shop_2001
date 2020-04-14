@@ -4,7 +4,7 @@ RSpec.describe "As an admin level user" do
   before(:each) do
     @admin_user = User.create!(name: "Bob",
                                address: "123 Glorious Way",
-                               city: "Stupendous",
+                               city: "Something",
                                state: "SomeState",
                                zip: '80122',
                                email: "bob@example.com",
@@ -29,7 +29,7 @@ RSpec.describe "As an admin level user" do
                                password: "password",
                                password_confirmation: "password",
                                role: 0)
-    @merchant_user2 = User.create!(name: "Bob_merchant1",
+    @merchant_user1 = User.create!(name: "Bob_merchant1",
                                address: "123 Glorious Way",
                                city: "Stupendous",
                                state: "SomeState",
