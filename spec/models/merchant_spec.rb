@@ -100,6 +100,8 @@ describe Merchant, type: :model do
       expect(mchain.active?).to eql(true)
 
       @meg.disable_items
+      @tire.reload
+      mchain.reload
 
       expect(@tire.active?).to eql(false)
       expect(mchain.active?).to eql(false)
