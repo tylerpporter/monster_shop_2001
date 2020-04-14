@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   patch '/cart/:item_id', to: 'cart#add_or_sub'
 
   #orders
-  resources :orders, only: [:new, :create, :show]
+  resources :orders, only: [:new, :create, :show, :update]
 
   #register
   get '/register', to: 'register#new'
@@ -48,12 +48,14 @@ Rails.application.routes.draw do
 
   #profile_orders
   get '/profile/orders', to: 'orders#index'
+  get '/profile/orders/:id', to: 'orders#show' #come back, figure out route refactor
+  patch '/profile/orders/:id', to: 'orders#update'
 
   #admin_user
   namespace :admin do
     get '/', to: 'dashboard#show'
-    get '/users', to: 'users#index'
     resources :merchants, only: [:show]
+    resources :users, only: [:index, :show]
   end
 
   #merchant_user
