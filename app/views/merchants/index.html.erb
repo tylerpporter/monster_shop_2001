@@ -2,8 +2,9 @@
 <p align="center"><%= link_to "New Merchant", "/merchants/new" %></p>
 <section class = "grid-container">
   <% @merchants.each do |merchant|%>
-    <section class = "grid-item">
-      <h2><%=link_to merchant.name, "/merchants/#{merchant.id}"%></h2>
+    <section class = "grid-item" id="merchant-<%= merchant.id %>">
+      <h2><%=link_to merchant.name, "/merchants/#{merchant.id}" unless current_admin? %></h2>
+      <h2><%=link_to merchant.name, "/admin/merchants/#{merchant.id}" if current_admin? %></h2>
     </section>
   <% end %>
 </section>
