@@ -66,5 +66,17 @@ RSpec.describe "As an admin level user." do
       expect(@item1.active?).to eql(false)
       expect(@item2.active?).to eql(false)
     end
+
+    it "I can see 'enable' button next to all disabled merchants" do
+      within("#merchant-#{@merchant1.id}") do
+        expect(page).to have_no_button("Enable")
+      end
+      within("#merchant-#{@merchant2.id}") do
+        expect(page).to have_no_button("Enable")
+      end
+      within("#merchant-#{@merchant3.id}") do
+        expect(page).to have_button("Enable")
+      end
+    end
   end
 end
