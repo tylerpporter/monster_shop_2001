@@ -89,7 +89,7 @@ RSpec.describe "As an admin level user." do
       end
 
       expect(current_path).to eql("/admin/merchants")
-      expect(page).to have_content("#{@merchant3.name} is now disabled")
+      expect(page).to have_content("#{@merchant3.name} is now enabled")
       within("#merchant-#{@merchant3.id}") do
         expect(page).to have_no_button("Enable")
       end
