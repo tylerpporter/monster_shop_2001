@@ -50,28 +50,19 @@ describe Order, type: :model do
       @item_order6 = @order_4.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
     end
 
-    it 'grandtotal' do
-      expect(@order_1.grandtotal).to eq(380)
-    end
 
-    it 'create_item_orders' do
-      item1 = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
-      item2 = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
-      @order_1.create_item_orders({item1 => 2, item2 => 1})
-      expect(@order_1.item_orders.count).to eq(5)
-      expect(@order_1.item_orders[0].class).to eq(ItemOrder)
-    end
 
     describe 'instance methods' do
+
       it '#grandtotal' do
-        expect(@order_1.grandtotal).to eq(230)
+        expect(@order_1.grandtotal).to eq(380)
       end
 
-      it '#create_item_orders' do
+      it 'create_item_orders' do
         item1 = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
-        pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
-        @order_1.create_item_orders({item1 => 2, pull_toy => 1})
-        expect(@order_1.item_orders.count).to eq(4)
+        item2 = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
+        @order_1.create_item_orders({item1 => 2, item2 => 1})
+        expect(@order_1.item_orders.count).to eq(5)
         expect(@order_1.item_orders[0].class).to eq(ItemOrder)
       end
 
@@ -79,7 +70,15 @@ describe Order, type: :model do
         item1 = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
         pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
         @order_1.create_item_orders({item1 => 2, pull_toy => 1})
-        expect(@order_1.total_item_quantity).to eq(8)
+        expect(@order_1.total_item_quantity).to eq(11)
+      end
+
+      it 'can find item quanitities for a merchant' do
+        expect(@order_1.total_items_for(@meg)).to eql(5)
+      end
+
+      it 'can find item values for a merchant' do
+        expect(@order_1.total_value_for(@meg)).to eql(350)
       end
     end
 
@@ -92,12 +91,6 @@ describe Order, type: :model do
       end
     end
 
-    it 'can find item quanitities for a merchant' do
-      expect(@order_1.total_items_for(@meg)).to eql(5)
-    end
 
-    it 'can find item values for a merchant' do
-      expect(@order_1.total_value_for(@meg)).to eql(350)
-    end
   end
 end
