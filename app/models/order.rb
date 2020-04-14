@@ -26,7 +26,11 @@ class Order <ApplicationRecord
   end
 
  def total_items_for(merchant)
-   merchant.item_orders.where(order_id: self.id).sum(:quantity)
+   all_items_for(merchant).sum(:quantity)
+ end
+
+ def all_items_for(merchant)
+   merchant.item_orders.where(order_id: self.id)
  end
 
  def total_value_for(merchant)
