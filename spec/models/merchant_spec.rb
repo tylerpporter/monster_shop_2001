@@ -121,12 +121,12 @@ describe Merchant, type: :model do
 
     it "#disable" do
       mchain = @meg.items.create(name: "MChain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
-      
+
       expect(@meg.enabled?).to eql(true)
       expect(@tire.active?).to eql(true)
       expect(mchain.active?).to eql(true)
 
-      @meg.disabled
+      @meg.disable
 
       @meg.reload
       @tire.reload
