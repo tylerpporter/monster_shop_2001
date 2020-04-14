@@ -37,7 +37,7 @@ class Merchant <ApplicationRecord
     Order.where(id: order_ids)
   end
 
-  def disable_items
+  def deactivate_items
     items.update_all(active?: false)
   end
 end

@@ -99,7 +99,7 @@ describe Merchant, type: :model do
       expect(@tire.active?).to eql(true)
       expect(mchain.active?).to eql(true)
 
-      @meg.disable_items
+      @meg.deactivate_items
       @tire.reload
       mchain.reload
 
