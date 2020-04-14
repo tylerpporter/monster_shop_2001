@@ -15,10 +15,20 @@ class Merchant::ItemsController < Merchant::BaseController
     @item.save ? flash_and_redirect(@item) : sad_path(@item)
   end
 
+  def edit
+    @item = current_user.merchant.items.find(params[:id])
+  end
+
   def update
     item = Item.find(params[:id])
-    item.update(update_status)
-    flash_and_redirect(item)
+    if params.include?(:active?)
+      item.update(update_status)
+      flash_and_redirect(item)
+    else
+      item.update(item_params)
+      flash[:notice] = "Item with ID: #{item.id} has been updated"
+      redirect_to '/merchant/items'
+    end
   end
 
   def destroy

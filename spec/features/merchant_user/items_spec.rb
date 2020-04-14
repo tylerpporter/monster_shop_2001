@@ -169,5 +169,42 @@ RSpec.describe "As a merchant employee" do
       expect(page).to have_field("Price", with: "18")
       expect(page).to have_field("Description", with: "No more chaffin'!")
     end
+    it "I can edit an existing item" do
+      price = 18
+      description = "No more chaffin'!"
+      image_url = ""
+      inventory = 25
+
+      within "#item-#{@tire.id}" do
+        click_link "Edit"
+      end
+
+      expect(page).to have_field("Name", with: @tire.name)
+      expect(page).to have_field("Price", with: @tire.price)
+      expect(page).to have_field("Description", with: @tire.description)
+      expect(page).to have_field("Image", with: @tire.image)
+      expect(page).to have_field("Inventory", with: @tire.inventory)
+
+      fill_in :price, with: price
+      fill_in :description, with: description
+      fill_in :image, with: image_url
+      fill_in :inventory, with: inventory
+
+      click_button "Update Item"
+
+      @tire.reload
+
+      expect(current_path).to eq('/merchant/items')
+      expect(page).to have_content("Item with ID: #{@tire.id} has been updated")
+      within "#item-#{@tire.id}" do
+        expect(page).to have_content(@tire.name)
+        expect(page).to have_content(@tire.description)
+        expect(page).to have_content(@tire.price)
+        expect(page).to have_css("img[src*='#{@tire.image}']")
+        expect(page).to have_content("Active")
+        expect(page).to have_content(@tire.inventory)
+        expect(page).to have_link("Deactivate")
+      end
+    end
   end
 end
