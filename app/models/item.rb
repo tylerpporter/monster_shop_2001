@@ -14,7 +14,7 @@ class Item <ApplicationRecord
 
   def set_defaults
     default_image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.123rf.com%2Fstock-photo%2Fno_image_available.html&psig=AOvVaw30kiGxMy2gbAtnTgpSwWu0&ust=1586966141754000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKiq-9qj6OgCFQAAAAAdAAAAABAD"
-    self.image = default_image if self.image == ""
+    self.image = default_image if self.image.empty?
   end
 
   def average_review
