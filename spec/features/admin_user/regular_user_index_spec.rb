@@ -86,6 +86,14 @@ RSpec.describe "As an admin level user" do
       end
     end
 
+    it "I can click on user name link and it takes me to admin/users/:id show page" do
+      within("#user-#{@regular_user1.id}") do
+        click_link(@regular_user1.name)
+      end
+
+      expect(current_path).to eql("/admin/users/#{@regular_user1.id}")
+    end
+
   end
 
 end
