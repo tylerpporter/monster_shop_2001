@@ -18,8 +18,6 @@ RSpec.describe "As an admin level user." do
 
      @item1 = @merchant1.items.create!(name: "bike_item1", description: "Description of Bike Item 1", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",active?: true, inventory: 12)
      @item2 = @merchant1.items.create!(name: "bike_item1", description: "Description of Bike Item 1", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",active?: true, inventory: 12)
-     @item3 = @merchant1.items.create!(name: "bike_item1", description: "Description of Bike Item 1", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",active?: false, inventory: 12)
-     @item4 = @merchant1.items.create!(name: "bike_item1", description: "Description of Bike Item 1", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",active?: false, inventory: 12)
 
      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin_user)
      visit "/admin/merchants"
@@ -97,6 +95,27 @@ RSpec.describe "As an admin level user." do
       @merchant3.reload
 
       expect(@merchant3.enabled?).to eql(true)
+    end
+
+    it "When I enable a merchant, that mercants items are activated" do
+      within("#merchant-#{@merchant1.id}") do
+        click_button "Disable"
+      end
+      @item1.reload
+      @item2.reload
+
+      expect(@item1.active?).to eql(false)
+      expect(@item2.active?).to eql(false)
+
+      within("#merchant-#{@merchant1.id}") do
+        click_button "Enable"
+      end
+
+      @item1.reload
+      @item2.reload
+      
+      expect(@item1.active?).to eql(true)
+      expect(@item2.active?).to eql(true)
     end
   end
 end
