@@ -9,6 +9,7 @@ class Merchant <ApplicationRecord
                         :city,
                         :state,
                         :zip
+  validates_inclusion_of :enabled?, :in => [true, false]
 
   def no_orders?
     item_orders.empty?
@@ -34,5 +35,23 @@ class Merchant <ApplicationRecord
   def pending_orders
     order_ids = item_orders.pluck(:order_id).uniq
     Order.where(id: order_ids)
+  end
+
+  def deactivate_items
+    items.update_all(active?: false)
+  end
+
+  def activate_items
+    items.update_all(active?: true)
+  end
+
+  def disable
+    update(enabled?: false)
+    deactivate_items
+  end
+
+  def enable
+    update(enabled?: true)
+    activate_items
   end
 end

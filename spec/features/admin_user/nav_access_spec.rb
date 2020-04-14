@@ -66,7 +66,7 @@ RSpec.describe "As a admin level user" do
     it "I can click link to see all users" do
 
       within(".topnav") do
-        click_link "All Users"
+        click_link "Users"
       end
 
       expect(current_path).to eql("/admin/users")

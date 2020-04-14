@@ -1,3 +1,20 @@
+<p><%= link_to "Add New Item", "/merchant/items/new"%></p>
+
 <% @merchant.items.each do |item| %>
-  <p><%= link_to item.name, "/items/#{item.id}" %></p>
+  <section id="item-<%=item.id%>">
+    <p><%= link_to "Deactivate", "/merchant/items/#{item.id}?active?=false", method: :patch  if item.active? %></p>
+    <p><%= link_to "Activate", "/merchant/items/#{item.id}?active?=true", method: :patch  if !item.active? %></p>
+    <p><%= link_to "Delete", "/merchant/items/#{item.id}", method: :delete if item.no_orders? %></p>
+    <p><%= link_to "Edit", "/merchant/items/#{item.id}/edit"%></p>
+    <p><%= item.name %></p>
+    <p><%= item.description %></p>
+    <p><%= item.price %></p>
+    <p><%= item.inventory %></p>
+    <% if item.active? %>
+      <p>Active</p>
+    <% else %>
+      <p>Inactive</p>
+    <% end %>
+    <p><%= image_tag item.image %></p>
+  </section>
 <% end %>
