@@ -5,26 +5,28 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.destroy_all
-Merchant.destroy_all
-Item.destroy_all
-Review.destroy_all
-Order.destroy_all
+
 ItemOrder.destroy_all
+MerchantEmployee.destroy_all
+Review.destroy_all
+Item.destroy_all
+Order.destroy_all
+Merchant.destroy_all
+User.destroy_all
 #users
-regular_user = User.create(name:"regular_user", address: "1 Regularuser way", city: "onetown", state: "onestate", zip: "12345", email:"user@example.com", password:"password_regular", role: 0)
-bike_shop_employee = User.create(name:"bike_shop_employee", address: "2 merchantuser way", city: "twotown", state: "twostate", zip: "12345", email:"merchant@example.com", password:"password_merchant", role: 0)
-dog_shop_employee = User.create(name:"dog_shop_employee", address: "3 merchantuser way", city: "threetown", state: "threestate", zip: "12345", email:"merchant2@example.com", password:"password_merchant2", role: 0)
-art_shop_employee = User.create(name:"art_shop_employee", address: "4 merchantuser way", city: "fourtown", state: "fourstate", zip: "12345", email:"merchant3@example.com", password:"password_merchant3", role: 0)
-admin_user = User.create(name:"admin_user", address: "5 adminuser way", city: "fivetown", state: "fivestate", zip: "12345", email:"admin@example.com", password:"password_admin", role: 2)
+regular_user = User.create!(name:"regular_user", address: "1 Regularuser way", city: "onetown", state: "onestate", zip: "12345", email:"user@example.com", password:"password_regular", role: 0)
+bike_shop_employee = User.create!(name:"bike_shop_employee", address: "2 merchantuser way", city: "twotown", state: "twostate", zip: "12345", email:"merchant@example.com", password:"password_merchant", role: 0)
+dog_shop_employee = User.create!(name:"dog_shop_employee", address: "3 merchantuser way", city: "threetown", state: "threestate", zip: "12345", email:"merchant2@example.com", password:"password_merchant2", role: 0)
+art_shop_employee = User.create!(name:"art_shop_employee", address: "4 merchantuser way", city: "fourtown", state: "fourstate", zip: "12345", email:"merchant3@example.com", password:"password_merchant3", role: 0)
+admin_user = User.create!(name:"admin_user", address: "5 adminuser way", city: "fivetown", state: "fivestate", zip: "12345", email:"admin@example.com", password:"password_admin", role: 2)
+#merchants
+bike_shop = Merchant.create!(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+dog_shop = Merchant.create!(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
+art_shop = Merchant.create!(name: "Ryan's Art Shop", address: '125 Art Ave.', city: 'Littleton', state: 'CO', zip: 80232)
 #hire_employees
 bike_shop.hire(bike_shop_employee)
 dog_shop.hire(dog_shop_employee)
 art_shop.hire(art_shop_employee)
-#merchants
-bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
-dog_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
-art_shop = Merchant.create(name: "Ryan's Art Shop", address: '125 Art Ave.', city: 'Littleton', state: 'CO', zip: 80232)
 #bike_shop items
 bike_item1 = bike_shop.items.create(name: "bike_item1", description: "Description of Bike Item 1", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",active?: true, inventory: 12)
 bike_item2 = bike_shop.items.create(name: "bike_item2", description: "Description of Bike Item 1", price: 30, image: "https://www.bikesonline.com/assets/full/S00147.jpg?1554705703",active?: true, inventory: 50)
@@ -44,30 +46,30 @@ art_item3 = art_shop.items.create(name: "art_item3", description: "Description f
 art_item4 = art_shop.items.create(name: "art_item4", description: "Description for Art Item 4", price: 20, image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQef2vBVGNHm1xN9Nh9czjORUhU5hqlgyL39rye5mnd_5wAEBXSrlVcz74zaj7Ng4_OMuGC73mp6gBQtGEmcr1CUyc2HxveGJ5pwxVaA86Ju0gdY3MCy6M3&usqp=CAE", active?: true, inventory: 400)
 art_item5 = art_shop.items.create(name: "art_item5", description: "Description for Art Item 5", price: 25, image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRlgSsb8ePDfkScJrkJPPboHgB99Mg4tgr5_4wWGom9Jn02CUbGnFQ8XLtVvh-3J4ZQ31xyafKJNTZw_QSatLJYF0enOhWIPiz7lESV-hRi5Be3GdIa-0Py&usqp=CAE", active?: true, inventory: 500)
 #reviews
-bike_item1.reviews.create(title:"review1", body: "Body for review 1", rating: 1 )
-bike_item1.reviews.create(title:"review2", body: "Body for review 2", rating: 2 )
-bike_item1.reviews.create(title:"review3", body: "Body for review 3", rating: 3 )
-bike_item2.reviews.create(title:"review4", body: "Body for review 4", rating: 4 )
-bike_item2.reviews.create(title:"review5", body: "Body for review 5", rating: 5 )
-bike_item3.reviews.create(title:"review6", body: "Body for review 6", rating: 1 )
-bike_item4.reviews.create(title:"review7", body: "Body for review 7", rating: 2 )
-bike_item5.reviews.create(title:"review8", body: "Body for review 8", rating: 3 )
-dog_item1.reviews.create(title:"review9", body: "Body for review 9", rating: 4 )
-dog_item1.reviews.create(title:"review10", body: "Body for review 10", rating: 5 )
-dog_item1.reviews.create(title:"review11", body: "Body for review 11", rating: 1 )
-dog_item2.reviews.create(title:"review12", body: "Body for review 12", rating: 2 )
-dog_item2.reviews.create(title:"review13", body: "Body for review 13", rating: 3 )
-dog_item3.reviews.create(title:"review14", body: "Body for review 14", rating: 4 )
-dog_item4.reviews.create(title:"review15", body: "Body for review 15", rating: 5 )
-dog_item5.reviews.create(title:"review16", body: "Body for review 16", rating: 1 )
-art_item1.reviews.create(title:"review17", body: "Body for review 17", rating: 2 )
-art_item1.reviews.create(title:"review18", body: "Body for review 18", rating: 3 )
-art_item1.reviews.create(title:"review19", body: "Body for review 19", rating: 4 )
-art_item2.reviews.create(title:"review20", body: "Body for review 20", rating: 5 )
-art_item2.reviews.create(title:"review21", body: "Body for review 21", rating: 1 )
-art_item3.reviews.create(title:"review22", body: "Body for review 22", rating: 2 )
-art_item4.reviews.create(title:"review23", body: "Body for review 23", rating: 3 )
-art_item5.reviews.create(title:"review24", body: "Body for review 24", rating: 4 )
+bike_item1.reviews.create!(title:"review1", content: "Body for review 1", rating: 1 )
+bike_item1.reviews.create(title:"review2", content: "Body for review 2", rating: 2 )
+bike_item1.reviews.create(title:"review3", content: "Body for review 3", rating: 3 )
+bike_item2.reviews.create(title:"review4", content: "Body for review 4", rating: 4 )
+bike_item2.reviews.create(title:"review5", content: "Body for review 5", rating: 5 )
+bike_item3.reviews.create(title:"review6", content: "Body for review 6", rating: 1 )
+bike_item4.reviews.create(title:"review7", content: "Body for review 7", rating: 2 )
+bike_item5.reviews.create(title:"review8", content: "Body for review 8", rating: 3 )
+dog_item1.reviews.create(title:"review9", content: "Body for review 9", rating: 4 )
+dog_item1.reviews.create(title:"review10", content: "Body for review 10", rating: 5 )
+dog_item1.reviews.create(title:"review11", content: "Body for review 11", rating: 1 )
+dog_item2.reviews.create(title:"review12", content: "Body for review 12", rating: 2 )
+dog_item2.reviews.create(title:"review13", content: "Body for review 13", rating: 3 )
+dog_item3.reviews.create(title:"review14", content: "Body for review 14", rating: 4 )
+dog_item4.reviews.create(title:"review15", content: "Body for review 15", rating: 5 )
+dog_item5.reviews.create(title:"review16", content: "Body for review 16", rating: 1 )
+art_item1.reviews.create(title:"review17", content: "Body for review 17", rating: 2 )
+art_item1.reviews.create(title:"review18", content: "Body for review 18", rating: 3 )
+art_item1.reviews.create(title:"review19", content: "Body for review 19", rating: 4 )
+art_item2.reviews.create(title:"review20", content: "Body for review 20", rating: 5 )
+art_item2.reviews.create(title:"review21", content: "Body for review 21", rating: 1 )
+art_item3.reviews.create(title:"review22", content: "Body for review 22", rating: 2 )
+art_item4.reviews.create(title:"review23", content: "Body for review 23", rating: 3 )
+art_item5.reviews.create(title:"review24", content: "Body for review 24", rating: 4 )
 #order
 order1 = Order.create(name: "Order1", address: "123 S Order2 way", city: "Whatatown", state: "CA", zip: 98765)
 order2 = Order.create(name: "order2", address: "456 S Order2 way", city: "Whatitown", state: "NY", zip: 12345)
