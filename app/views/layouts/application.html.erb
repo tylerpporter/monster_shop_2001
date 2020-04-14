@@ -22,7 +22,7 @@
       <%= link_to "Logout", "/logout", method: :delete unless visitor? %>
       <%= link_to "Merchant Dashboard", "/merchant" if current_merchant? %>
       <%= link_to "Admin Dashboard", "/admin" if current_admin? %>
-      <%= link_to "All Users", "/admin/users" if current_admin? %>
+      <%= link_to "Users", "/admin/users" if current_admin? %>
     </nav>
 
     <% flash.each do |name, msg| %>

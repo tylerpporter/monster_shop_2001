@@ -17,15 +17,15 @@ RSpec.describe "When i visit /profile" do
     @user = User.last
   end
   it "I can see my user name displayed" do
-    expect(page).to have_content("Hello, #{@user.name}")
+    expect(page).to have_content("#{@user.name}")
   end
 
   it "I can navigate away and come back to same user profile" do
-    expect(page).to have_content("Hello, #{@user.name}")
+    expect(page).to have_content("#{@user.name}")
 
     visit "/register"
     visit "/profile"
 
-    expect(page).to have_content("Hello, #{@user.name}")
+    expect(page).to have_content("#{@user.name}")
   end
 end
