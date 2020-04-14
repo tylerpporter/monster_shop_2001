@@ -84,20 +84,3 @@ RSpec.describe "As a merchant employee", type: :feature do
     end
   end
 end
-
-# User Story 49, Merchant sees an order show page
-#
-# As a merchant employee
-# When I visit an order show page from my dashboard
-# I see the recipients name and address that was used to create this order
-# I only see the items in the order that are being purchased from my merchant
-# I do not see any items in the order being purchased from other merchants
-# For each item, I see the following information:
-# # - the name of the item, which is a link to my item's show page
-# "/merchant/items/:id"
-# is there a significant difference between the merchant's perspective?
-# "/items/:id"
-
-# - an image of the item
-# - my price for the item
-# - the quantity the user wants to purchase
