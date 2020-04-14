@@ -1,0 +1,20 @@
+<h1>Order <%= @order.id %></h1>
+
+<section id="customer-details">
+  <%= @order.user.name %>
+  <%= @order.user.address %>
+  <%= @order.user.city %>
+  <%= @order.user.state %>
+  <%= @order.user.zip %>
+</section>
+
+
+<%= @order.all_items_for(current_user.merchant).each do |item_order| %>
+  <section id="item-<%= item_order.item.id %>">
+    <%= link_to "#{item_order.item.name}", "/items/#{item_order.item.id}" %>
+    <img src=<%= item_order.item.image %>/>
+    <%= item_order.price %>
+    Quantity: <%= item_order.quantity %>
+
+  </section>
+<% end %>
