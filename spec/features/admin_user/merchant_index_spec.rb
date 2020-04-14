@@ -135,5 +135,13 @@ RSpec.describe "As an admin level user." do
         expect(page).to have_content("State: #{@merchant3.state}")
       end
     end
+
+    it "When i click merchant name link it takes me to admin/merchant show" do
+      within("#merchant-#{@merchant1.id}") do
+        click_link(@merchant1.name)
+      end
+
+      expect(current_path).to eql("/admin/merchants/#{@merchant1.id}")
+    end
   end
 end
