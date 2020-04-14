@@ -1,6 +1,7 @@
 <% @merchant.items.each do |item| %>
   <section id="item-<%=item.id%>">
     <p><%= link_to "Deactivate", "/merchant/items/#{item.id}?active?=false", method: :patch  if item.active? %></p>
+    <p><%= link_to "Activate", "/merchant/items/#{item.id}?active?=true", method: :patch  if !item.active? %></p>
     <p><%= item.name %></p>
     <p><%= item.description %></p>
     <p><%= item.price %></p>

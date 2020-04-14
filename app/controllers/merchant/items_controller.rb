@@ -7,7 +7,8 @@ class Merchant::ItemsController < Merchant::BaseController
   def update
     item = Item.find(params[:id])
     item.update(update_params)
-    flash[:notice] = "#{item.name} is no longer for sale"
+    flash[:notice] = "#{item.name} is no longer for sale" if !item.active?
+    flash[:notice] = "#{item.name} is now available for sale" if item.active?
     redirect_to '/merchant/items'
   end
 

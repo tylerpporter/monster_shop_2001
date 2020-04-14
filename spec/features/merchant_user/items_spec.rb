@@ -51,6 +51,24 @@ RSpec.describe "As a merchant employee" do
       within "#item-#{@tire.id}" do
         expect(page).to have_content("Inactive")
         expect(page).to_not have_link("Deactivate")
+        expect(page).to have_link("Activate")
+      end
+    end
+    it "I can activate an inactive item" do
+      within "#item-#{@tire.id}" do
+        click_link "Deactivate"
+      end
+
+      within "#item-#{@tire.id}" do
+        click_link "Activate"
+      end
+
+      expect(current_path).to eq('/merchant/items')
+      expect(page).to have_content("#{@tire.name} is now available for sale")
+      within "#item-#{@tire.id}" do
+        expect(page).to have_content("Active")
+        expect(page).to_not have_link("Activate")
+        expect(page).to have_link("Deactivate")
       end
     end
   end
