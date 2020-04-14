@@ -42,6 +42,8 @@ RSpec.describe "As an admin level user." do
         click_button "Disable"
       end
 
+      expect(current_path).to eql("/admin/merchants")
+      expect(page).to have_content("#{@merchant1.name} is now disabled")
       within("#merchant-#{@merchant1.id}") do
         expect(page).to have_no_button("Disable")
       end
@@ -58,6 +60,8 @@ RSpec.describe "As an admin level user." do
       within("#merchant-#{@merchant1.id}") do
         click_button "Disable"
       end
+      @item1.reload
+      @item2.reload
 
       expect(@item1.active?).to eql(false)
       expect(@item2.active?).to eql(false)
