@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   patch '/cart/:item_id', to: 'cart#add_or_sub'
 
   #orders
-  resources :orders, only: [:new, :create, :show]
+  resources :orders, only: [:new, :create, :show, :update]
 
   #register
   get '/register', to: 'register#new'
@@ -39,25 +39,34 @@ Rails.application.routes.draw do
   delete '/logout', to: 'session#destroy'
 
   #profile
-  get '/profile', to: 'profile#show'
-  get '/profile/edit', to: 'profile#edit'
-  patch '/profile', to: 'profile#update'
+  # get '/profile', to: 'profile#show'
+  # get '/profile/edit', to: 'profile#edit'
+  # patch '/profile', to: 'profile#update'
 
   #password_reset
   resource :password, only: [:edit, :update]
 
-  #profile_orders
-  get '/profile/orders', to: 'orders#index'
+  namespace :profile, resources: :profile do
+    resources :orders, only: [:index, :show, :update]
+    # get '/profile/orders', to: 'orders#index'
+    # get '/profile/orders/:id', to: 'orders#show' #come back, figure out route refactor
+    # patch '/profile/orders/:id', to: 'orders#update'
+    get '/', to: 'dashboard#show'
+    get '/edit', to: 'dashboard#edit'
+    patch '/', to: 'dashboard#update'
+  end
 
   #admin_user
   namespace :admin do
-    get '/', to: "dashboard#show"
-    get '/users', to: 'users#index'
+    get '/', to: 'dashboard#show'
+    resources :merchants, only: [:show]
+    resources :users, only: [:index, :show]
   end
 
   #merchant_user
   namespace :merchant do
-    get '/', to: "dashboard#show"
+    get '/', to: 'dashboard#show'
+    get '/orders/:id', to: 'orders#show'
+    get '/items', to: 'items#index'
   end
-
 end
