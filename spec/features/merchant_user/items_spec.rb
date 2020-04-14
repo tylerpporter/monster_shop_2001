@@ -23,6 +23,8 @@ RSpec.describe "As a merchant employee" do
         fill_in :password, with: "password"
         click_button("Submit")
       end
+      @order1 = @merchant_user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 0)
+      @order1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
       visit '/merchant/items'
     end
     it "I see all of my items and their info" do
@@ -70,6 +72,20 @@ RSpec.describe "As a merchant employee" do
         expect(page).to_not have_link("Activate")
         expect(page).to have_link("Deactivate")
       end
+    end
+    it "I can delete an item that has not been ordered" do
+
+      within "#item-#{@tire.id}" do
+        expect(page).to_not have_link("Delete")
+      end
+
+      within "#item-#{@pull_toy.id}" do
+        click_link "Delete"
+      end
+
+      expect(current_path).to eq('/merchant/items')
+      expect(page).to have_content("#{@pull_toy.name} has been deleted")
+      expect(page).to_not have_content(@pull_toy.description)
     end
   end
 end

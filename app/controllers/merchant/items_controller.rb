@@ -7,8 +7,13 @@ class Merchant::ItemsController < Merchant::BaseController
   def update
     item = Item.find(params[:id])
     item.update(update_params)
-    flash_notice(item)
-    redirect_to '/merchant/items'
+    flash_and_redirect(item)
+  end
+
+  def destroy
+    item = Item.find(params[:id])
+    item.destroy
+    flash_and_redirect(item)
   end
 
   private
@@ -17,9 +22,11 @@ class Merchant::ItemsController < Merchant::BaseController
     params.permit(:active?)
   end
 
-  def flash_notice(item)
-    flash[:notice] = "#{item.name} is no longer for sale" if !item.active?
-    flash[:notice] = "#{item.name} is now available for sale" if item.active?
+  def flash_and_redirect(item)
+    flash[:notice] = "#{item.name} is no longer for sale" if !item.active? && params[:action] == "update"
+    flash[:notice] = "#{item.name} is now available for sale" if item.active? && params[:action] == "update"
+    flash[:notice] = "#{item.name} has been deleted" if params[:action] == "destroy"
+    redirect_to '/merchant/items'
   end
 
 end
