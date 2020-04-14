@@ -136,5 +136,25 @@ describe Merchant, type: :model do
       expect(@tire.active?).to eql(false)
       expect(mchain.active?).to eql(false)
     end
+
+    it "#enable" do
+      test_merchant = Merchant.create(enabled?: false, name: "Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      test_item1 = test_merchant.items.create!(active?: false, name: "MChain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
+      test_item2 = test_merchant.items.create!(active?: false, name: "MChain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
+
+      expect(test_merchant.enabled?).to eql(false)
+      expect(test_item1.active?).to eql(false)
+      expect(test_item2.active?).to eql(false)
+
+      test_merchant.enable
+
+      test_merchant.reload
+      test_item1.reload
+      test_item2.reload
+
+      expect(test_merchant.enabled?).to eql(true)
+      expect(test_item1.active?).to eql(true)
+      expect(test_item2.active?).to eql(true)
+    end
   end
 end
