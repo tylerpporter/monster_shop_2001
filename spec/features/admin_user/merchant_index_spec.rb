@@ -39,6 +39,7 @@ RSpec.describe "As an admin level user." do
       within("#merchant-#{@merchant1.id}") do
         click_button "Disable"
       end
+
       within("#merchant-#{@merchant1.id}") do
         expect(page).to have_no_button("Disable")
       end

@@ -8,6 +8,8 @@ class Admin::MerchantsController < Admin::BaseController
   end
 
   def update
+    merchant = Merchant.find(params[:id])
+    merchant.update(enabled?: false)
     redirect_to admin_merchants_path
   end
 
