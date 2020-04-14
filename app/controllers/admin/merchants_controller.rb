@@ -15,6 +15,7 @@ class Admin::MerchantsController < Admin::BaseController
       flash[:notice] = "#{merchant.name} is now disabled"
     else
       merchant.update(enabled?: true)
+      merchant.activate_items
       flash[:notice] = "#{merchant.name} is now enabled"
     end
     redirect_to admin_merchants_path
