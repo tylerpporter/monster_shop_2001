@@ -36,4 +36,8 @@ class Merchant <ApplicationRecord
     order_ids = item_orders.pluck(:order_id).uniq
     Order.where(id: order_ids)
   end
+
+  def disable_items
+    items.update_all(active?: false)
+  end
 end
