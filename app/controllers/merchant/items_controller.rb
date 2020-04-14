@@ -12,17 +12,12 @@ class Merchant::ItemsController < Merchant::BaseController
   def create
     @merchant = current_user.merchant
     @item = @merchant.items.create(item_params)
-    if @item.save
-      flash_and_redirect(@item)
-    else
-      flash[:error] = @item.errors.full_messages.to_sentence
-      render :new
-    end
+    @item.save ? flash_and_redirect(@item) : sad_path(@item)
   end
 
   def update
     item = Item.find(params[:id])
-    item.update(update_params)
+    item.update(update_status)
     flash_and_redirect(item)
   end
 
@@ -38,7 +33,7 @@ class Merchant::ItemsController < Merchant::BaseController
     params.permit(:name, :description, :price, :image, :inventory)
   end
 
-  def update_params
+  def update_status
     params.permit(:active?)
   end
 
@@ -49,5 +44,11 @@ class Merchant::ItemsController < Merchant::BaseController
     flash[:notice] = "#{item.name} has been saved" if params[:action] == "create"
     redirect_to '/merchant/items'
   end
+
+  def sad_path(item)
+    flash[:error] = item.errors.full_messages.to_sentence
+    render :new
+  end
+
 
 end
