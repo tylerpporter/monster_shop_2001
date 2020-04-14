@@ -64,7 +64,7 @@ RSpec.describe "As a merchant employee", type: :feature do
         expect(page).to have_content(@shopper.zip)
       end
 
-      within "#item-#{@bike_item1}" do
+      within "#item-#{@bike_item1.id}" do
         expect(page).to have_link(@bike_item1.name)
         expect(page).to have_css("img[src*='#{@bike_item1.image}']")
         expect(page).to have_content(@bike_item1.price)
@@ -72,14 +72,14 @@ RSpec.describe "As a merchant employee", type: :feature do
       end
 
 
-      within "#item-#{@bike_item2}" do
+      within "#item-#{@bike_item2.id}" do
         expect(page).to have_link(@bike_item2.name)
         expect(page).to have_css("img[src*='#{@bike_item2.image}']")
         expect(page).to have_content(@bike_item2.price)
         expect(page).to have_content("Quantity: #{@item_order5.quantity}")
       end
 
-      expect(page).to_not have_css("#item-#{@art_item1}")
+      expect(page).to_not have_css("#item-#{@art_item1.id}")
 
     end
   end
@@ -93,7 +93,11 @@ end
 # I only see the items in the order that are being purchased from my merchant
 # I do not see any items in the order being purchased from other merchants
 # For each item, I see the following information:
-# - the name of the item, which is a link to my item's show page
+# # - the name of the item, which is a link to my item's show page
+# "/merchant/items/:id"
+# is there a significant difference between the merchant's perspective?
+# "/items/:id"
+
 # - an image of the item
 # - my price for the item
 # - the quantity the user wants to purchase
