@@ -35,9 +35,9 @@ describe Order, type: :model do
 
       @order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 0)
 
-      @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      @order_1.item_orders.create!(item: @chain, price: @chain.price, quantity: 3)
-      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
+      @order1_item_order1 = @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      @order1_item_order2 = @order_1.item_orders.create!(item: @chain, price: @chain.price, quantity: 3)
+      @order1_item_order3 = @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
 
       @order_2 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 1)
       @item_order3 = @order_2.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
@@ -58,7 +58,13 @@ describe Order, type: :model do
         expect(@order_1.grandtotal).to eq(380)
       end
 
-      it 'create_item_orders' do
+      it '#all_items_for(merchant)' do
+        merchant_items = @order_1.all_items_for(@meg)
+
+        expect(merchant_items).to contain_exactly(@order1_item_order1, @order1_item_order2)
+      end
+
+      it '#create_item_orders' do
         item1 = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
         item2 = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
         @order_1.create_item_orders({item1 => 2, item2 => 1})
