@@ -6,12 +6,18 @@ class Merchant::ItemsController < Merchant::BaseController
 
   def new
     @merchant = current_user.merchant
+    @item = Item.new
   end
 
   def create
-    merchant = current_user.merchant
-    item = merchant.items.create(item_params)
-    flash_and_redirect(item)
+    @merchant = current_user.merchant
+    @item = @merchant.items.create(item_params)
+    if @item.save
+      flash_and_redirect(@item)
+    else
+      flash[:error] = @item.errors.full_messages.to_sentence
+      render :new
+    end
   end
 
   def update

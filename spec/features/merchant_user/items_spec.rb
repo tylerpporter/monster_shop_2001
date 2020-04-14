@@ -148,7 +148,26 @@ RSpec.describe "As a merchant employee" do
         expect(page).to have_content(new_item.inventory)
         expect(page).to have_link("Deactivate")
       end
+    end
+    it "I need to include required fields to create a new item" do
+      name = "Chamois Buttr"
+      price = 18
+      description = "No more chaffin'!"
+      image_url = ""
+      inventory = 25
 
+      click_link "Add New Item"
+
+      fill_in :name, with: ""
+      fill_in :price, with: price
+      fill_in :description, with: description
+      fill_in :image, with: image_url
+
+      click_button "Create Item"
+
+      expect(page).to have_content("Name can't be blank and Inventory can't be blank")
+      expect(page).to have_field("Price", with: "18")
+      expect(page).to have_field("Description", with: "No more chaffin'!")
     end
   end
 end
