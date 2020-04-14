@@ -8,9 +8,8 @@ class Merchant <ApplicationRecord
                         :address,
                         :city,
                         :state,
-                        :zip,
-                        :enabled?
-  validates_inclusion_of :enabled?, in:([true, false])
+                        :zip
+  validates_inclusion_of :enabled?, :in => [true, false]
 
   def no_orders?
     item_orders.empty?
