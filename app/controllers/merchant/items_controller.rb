@@ -12,7 +12,7 @@ class Merchant::ItemsController < Merchant::BaseController
   def create
     @merchant = current_user.merchant
     @item = @merchant.items.create(item_params)
-    @item.save ? flash_and_redirect(@item) : sad_path_create(@item)
+    @item.save ? flash_and_redirect(@item) : sad_path(@item, "new")
   end
 
   def edit
@@ -47,7 +47,7 @@ class Merchant::ItemsController < Merchant::BaseController
 
   def update_item(item)
     item.update(item_params)
-    item.save ? flash_and_redirect(item) : sad_path_edit(item)
+    item.save ? flash_and_redirect(item) : sad_path(item, "edit")
   end
 
   def flash_and_redirect(item)
@@ -59,14 +59,9 @@ class Merchant::ItemsController < Merchant::BaseController
     redirect_to '/merchant/items'
   end
 
-  def sad_path_create(item)
+  def sad_path(item, type)
     flash[:error] = item.errors.full_messages.to_sentence
-    render :new
-  end
-
-  def sad_path_edit(item)
-    flash[:error] = item.errors.full_messages.to_sentence
-    render :edit
+    type == "new" ? render(:new) : render(:edit)
   end
 
 end
