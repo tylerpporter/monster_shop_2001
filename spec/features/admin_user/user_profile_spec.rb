@@ -34,8 +34,11 @@ RSpec.describe "As an admin level user" do
         expect(page).to have_content(@regular_user1.zip)
         expect(page).to have_content(@regular_user1.email)
         expect(page).to have_no_link("Edit Profile")
-        expe
       end
+      within(".reset-password-main-block") do
+        expect(page).to have_no_link("Reset Password")
+      end
+      expect(page).to have_no_link("My Orders")
     end
   end
 end
