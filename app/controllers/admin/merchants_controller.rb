@@ -7,4 +7,8 @@ class Admin::MerchantsController < Admin::BaseController
     @merchant = Merchant.find(params[:id])
   end
 
+  def update
+    redirect_to admin_merchants_path
+  end
+
 end
