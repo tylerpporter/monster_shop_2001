@@ -87,5 +87,68 @@ RSpec.describe "As a merchant employee" do
       expect(page).to have_content("#{@pull_toy.name} has been deleted")
       expect(page).to_not have_content(@pull_toy.description)
     end
+    it "I can add a new item" do
+      name = "Chamois Buttr"
+      price = 18
+      description = "No more chaffin'!"
+      image_url = "https://images-na.ssl-images-amazon.com/images/I/51HMpDXItgL._SX569_.jpg"
+      inventory = 25
+
+      click_link "Add New Item"
+
+      fill_in :name, with: name
+      fill_in :price, with: price
+      fill_in :description, with: description
+      fill_in :image, with: image_url
+      fill_in :inventory, with: inventory
+
+      click_button "Create Item"
+
+      new_item = Item.last
+
+      expect(current_path).to eq('/merchant/items')
+      expect(page).to have_content("#{new_item.name} has been saved")
+      within "#item-#{new_item.id}" do
+        expect(page).to have_content(new_item.name)
+        expect(page).to have_content(new_item.description)
+        expect(page).to have_content(new_item.price)
+        expect(page).to have_css("img[src*='#{new_item.image}']")
+        expect(page).to have_content("Active")
+        expect(page).to have_content(new_item.inventory)
+        expect(page).to have_link("Deactivate")
+      end
+    end
+    it "I don't need to include an image to add a new item" do
+      name = "Chamois Buttr"
+      price = 18
+      description = "No more chaffin'!"
+      image_url = ""
+      inventory = 25
+
+      click_link "Add New Item"
+
+      fill_in :name, with: name
+      fill_in :price, with: price
+      fill_in :description, with: description
+      fill_in :image, with: image_url
+      fill_in :inventory, with: inventory
+
+      click_button "Create Item"
+
+      new_item = Item.last
+
+      expect(current_path).to eq('/merchant/items')
+      expect(page).to have_content("#{new_item.name} has been saved")
+      within "#item-#{new_item.id}" do
+        expect(page).to have_content(new_item.name)
+        expect(page).to have_content(new_item.description)
+        expect(page).to have_content(new_item.price)
+        expect(page).to have_css("img[src*=BAD]")
+        expect(page).to have_content("Active")
+        expect(page).to have_content(new_item.inventory)
+        expect(page).to have_link("Deactivate")
+      end
+
+    end
   end
 end
