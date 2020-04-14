@@ -93,7 +93,7 @@ describe Merchant, type: :model do
       expect(@meg.pending_orders).to eq([order1, order3])
     end
 
-    it "#disable items" do
+    it "#deactivate_items" do
       mchain = @meg.items.create(name: "MChain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
 
       expect(@tire.active?).to eql(true)
@@ -105,6 +105,18 @@ describe Merchant, type: :model do
 
       expect(@tire.active?).to eql(false)
       expect(mchain.active?).to eql(false)
+    end
+
+    it "#activate_items" do
+      test_item1 = @meg.items.create!(active?: false, name: "MChain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
+      test_item2 = @meg.items.create!(active?: false, name: "MChain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
+
+      @meg.activate_items
+      test_item1.reload
+      test_item2.reload
+
+      expect(test_item1.active?).to eql(true)
+      expect(test_item2.active?).to eql(true)
     end
   end
 end
