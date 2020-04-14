@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20200414185107) do
 
   # These are extensions that must be enabled in order to support this database
@@ -31,7 +32,7 @@ ActiveRecord::Schema.define(version: 20200414185107) do
     t.string "name"
     t.string "description"
     t.integer "price"
-    t.string "image"
+    t.string "image", default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.123rf.com%2Fstock-photo%2Fno_image_available.html&psig=AOvVaw30kiGxMy2gbAtnTgpSwWu0&ust=1586966141754000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKiq-9qj6OgCFQAAAAAdAAAAABAD"
     t.boolean "active?", default: true
     t.integer "inventory"
     t.bigint "merchant_id"
