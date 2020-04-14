@@ -93,7 +93,5 @@ RSpec.describe "As an admin level user" do
 
       expect(current_path).to eql("/admin/users/#{@regular_user1.id}")
     end
-
   end
-
 end
