@@ -113,9 +113,35 @@ RSpec.describe "As an admin level user." do
 
       @item1.reload
       @item2.reload
-      
+
       expect(@item1.active?).to eql(true)
       expect(@item2.active?).to eql(true)
+    end
+
+    it "I can see merchant's name, city, and state." do
+      within("#merchant-#{@merchant1.id}") do
+        expect(page).to have_link(@merchant1.name)
+        expect(page).to have_content("City: #{@merchant1.city}")
+        expect(page).to have_content("State: #{@merchant1.state}")
+      end
+      within("#merchant-#{@merchant2.id}") do
+        expect(page).to have_link(@merchant2.name)
+        expect(page).to have_content("City: #{@merchant2.city}")
+        expect(page).to have_content("State: #{@merchant2.state}")
+      end
+      within("#merchant-#{@merchant3.id}") do
+        expect(page).to have_link(@merchant3.name)
+        expect(page).to have_content("City: #{@merchant3.city}")
+        expect(page).to have_content("State: #{@merchant3.state}")
+      end
+    end
+
+    it "When i click merchant name link it takes me to admin/merchant show" do
+      within("#merchant-#{@merchant1.id}") do
+        click_link(@merchant1.name)
+      end
+
+      expect(current_path).to eql("/admin/merchants/#{@merchant1.id}")
     end
   end
 end
