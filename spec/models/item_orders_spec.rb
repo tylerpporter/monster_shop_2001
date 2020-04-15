@@ -38,9 +38,10 @@ describe ItemOrder, type: :model do
       expect(@item_order1.replace_inventory).to eq(14)
     end
 
-    it "#not_enough_inventory" do
+    it "#not_enough_inventory?" do
       item_order2 = @order1.item_orders.create!(item: @tire, price: @tire.price, quantity: 13)
-      expect(item_order2.not_enough_inventory).to eql(true)
+      expect(@item_order1.not_enough_inventory?).to eql(false)
+      expect(item_order2.not_enough_inventory?).to eql(true)
     end
   end
 
