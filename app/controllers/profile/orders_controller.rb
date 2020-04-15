@@ -10,7 +10,7 @@ class Profile::OrdersController < Profile::BaseController
 
   def update
     order = Order.find(params[:id])
-    update_and_cancel(order) if cancelled? 
+    update_and_cancel(order) if cancelled?
   end
 
   private
@@ -21,10 +21,6 @@ class Profile::OrdersController < Profile::BaseController
 
   def cancelled?
     params[:status] == "cancelled"
-  end
-
-  def fulfilled?(order)
-    order.item_orders.all? {|item_order| item_order.status == "fulfilled"}
   end
 
   def cancel_item_order(order)
