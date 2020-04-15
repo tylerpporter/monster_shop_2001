@@ -25,20 +25,26 @@ class Order <ApplicationRecord
     end
   end
 
- def total_items_for(merchant)
-   all_items_for(merchant).sum(:quantity)
- end
+  def total_items_for(merchant)
+    all_items_for(merchant).sum(:quantity)
+  end
 
- def all_items_for(merchant)
-   merchant.item_orders.where(order_id: self.id)
- end
+  def all_items_for(merchant)
+    merchant.item_orders.where(order_id: self.id)
+  end
 
- def total_value_for(merchant)
-  x = merchant.item_orders.where(order_id: self.id)
-  x.sum('item_orders.price * item_orders.quantity').to_i
- end
+  def total_value_for(merchant)
+    x = merchant.item_orders.where(order_id: self.id)
+    x.sum('item_orders.price * item_orders.quantity').to_i
+  end
 
   def total_item_quantity
     item_orders.sum(:quantity)
   end
+
+  def all_fulfilled?
+    item_orders.where(status: "unfulfilled").empty?
+    # item_orders.all? {|item_order| item_order.status == "fulfilled"}
+  end
+
 end
