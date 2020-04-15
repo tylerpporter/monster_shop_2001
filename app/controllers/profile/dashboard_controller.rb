@@ -1,4 +1,5 @@
 class Profile::DashboardController < Profile::BaseController
+
   def show
     render file: "/public/404" if current_user.nil?
     @user = current_user
@@ -26,4 +27,5 @@ class Profile::DashboardController < Profile::BaseController
   def user_params
     params.permit(:name, :address, :city, :state, :zip, :email, :password, :password_confirmation)
   end
+  
 end

@@ -8,14 +8,9 @@ class Profile::OrdersController < Profile::BaseController
     @order = Order.find(params[:id])
   end
 
-  def update #this action will have to be hit when a merchant fulfills all items and that action will need a query param ?status="packaged"
+  def update
     order = Order.find(params[:id])
-    if cancelled?
-      update_and_cancel(order)
-      #the elsif has not been tested
-    elsif fulfilled?(order)
-      order.update(update_params)
-    end
+    update_and_cancel(order) if cancelled? 
   end
 
   private
@@ -49,4 +44,5 @@ class Profile::OrdersController < Profile::BaseController
     cancel_item_order(order)
     cancel_order_redirect
   end
+
 end
