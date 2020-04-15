@@ -40,7 +40,7 @@ RSpec.describe 'As a registered user' do
       visit '/profile/orders'
 
       within "#order-#{@order1.id}" do
-        expect(page).to have_link(@order1.id)
+        expect(page).to have_link("#{@order1.id}")
         expect(page).to have_content("Created At: #{@order1.created_at}")
         expect(page).to have_content("Updated At: #{@order1.updated_at}")
         expect(page).to have_content("Status: #{@order1.status}")
@@ -52,7 +52,7 @@ RSpec.describe 'As a registered user' do
       visit '/profile/orders'
 
       within "#order-#{@order1.id}" do
-        click_link @order1.id
+        click_link "#{@order1.id}"
       end
       expect(current_path).to eq("/profile/orders/#{@order1.id}")
     end
@@ -88,12 +88,12 @@ RSpec.describe 'As a registered user' do
 
       click_link "Cancel Order"
 
-      order = Order.find(@order1.id)
-      expected = order.item_orders.all? {|item_order| item_order.status == "unfulfilled"}
+      @order1.reload
+      result = @order1.item_orders.all? {|item_order| item_order.status == "unfulfilled"}
 
-      expect(expected).to eq(true)
-      expect(order.item_orders.first.item.inventory).to eq(14)
-      expect(order.status).to eq("cancelled")
+      expect(result).to eq(true)
+      expect(@order1.item_orders.first.item.inventory).to eq(14)
+      expect(@order1.status).to eq("cancelled")
       expect(current_path).to eq('/profile')
       expect(page).to have_content("Your order (Order ID: #{@order1.id}) has been cancelled.")
     end

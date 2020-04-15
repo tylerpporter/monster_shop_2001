@@ -15,6 +15,7 @@
     <img src=<%= item_order.item.image %>/>
     <%= item_order.price %>
     Quantity: <%= item_order.quantity %>
-
+    <%= link_to "fulfill", "/merchant/item_orders/#{item_order.id}", method: :patch unless item_order.fulfilled? %>
+    <p><%= "Item Fulfilled" unless item_order.unfulfilled? %></p>
   </section>
 <% end %>
