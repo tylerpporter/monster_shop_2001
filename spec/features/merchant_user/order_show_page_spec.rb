@@ -82,5 +82,28 @@ RSpec.describe "As a merchant employee", type: :feature do
       expect(page).to_not have_css("#item-#{@art_item1.id}")
 
     end
+
+    it 'I can see a link to fulfull the item in the order' do
+      visit "/merchant/orders/#{@order1.id}"
+
+      expect(@item_order2.status).to eq("unfulfilled")
+
+      within("#item-#{@item_order2.item_id}") do
+        click_link 'fulfill'
+      end
+
+      @item_order2.reload
+
+      expect(@item_order2.status).to eq("fulfilled")
+
+      expect(current_path).to eq("/merchant/orders/#{@order1.id}")
+
+      within("#item-#{@item_order2.item_id}") do
+        expect(page).to have_content('Item Fulfilled')
+        expect(page).to have_no_link('fulfill')
+      end
+
+      expect(page).to have_content("#{@item_order2.item.name} has been fulfilled")
+    end
   end
 end
