@@ -66,5 +66,18 @@ RSpec.describe 'As a registered user' do
         expect(page).to have_content("You are logged in")
       end
     end
+    it "Sad path for bad password_confirmation field" do
+      visit "/profile"
+
+      click_on "Reset Password"
+
+      within("form") do
+        fill_in :password, with: "password123"
+        fill_in :password_confirmation, with: "dog"
+        click_button("Submit")
+      end
+      expect(current_path).to eq("/password")
+      expect(page).to have_content("Please enter valid & matching passwords")
+    end
   end
 end
