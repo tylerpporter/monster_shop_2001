@@ -1,0 +1,18 @@
+<h1><%= merchant.name %></h1>
+<h3><%= merchant.address %></h3>
+<h3><%= merchant.city %>, <%= merchant.state %> <%= merchant.zip %></h3>
+<section class="dashboard-links">
+  <%= link_to "My Items", "/merchant/items" %>
+</section>
+
+<section class="pending-orders" >
+  <h2>Pending Orders:</h2>
+  <% merchant.pending_orders.each do |order| %>
+    <section id="order-<%= order.id %>" >
+      <p><%= link_to "#{order.id}", "/merchant/orders/#{order.id}" %></p>
+      <p>Created On: <%= order.created_at %></p>
+      <p>Quantity Items: <%= order.total_items_for(merchant) %></p>
+      <p>Total Items: <%= order.total_value_for(merchant) %></p>
+    </section>
+  <% end %>
+</section>
