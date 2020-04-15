@@ -49,7 +49,7 @@ describe Order, type: :model do
       @order_4 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 3)
       @item_order6 = @order_4.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
 
-      @order_5 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 3)
+      @order_5 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 0)
       @item_order7 = @order_5.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: "fulfilled")
       @item_order8 = @order_5.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: "fulfilled")
     end
@@ -106,10 +106,10 @@ describe Order, type: :model do
 
     describe "class methods" do
       it '.gather' do
-        expect(Order.gather(:packaged)).to eq([@order_2])
-        expect(Order.gather(:pending)).to eq([@order_1])
-        expect(Order.gather(:shipped)).to eq([@order_3])
-        expect(Order.gather(:cancelled)).to eq([@order_4])
+        expect(Order.gather(:packaged)).to match_array([@order_2])
+        expect(Order.gather(:pending)).to match_array([@order_1, @order_5])
+        expect(Order.gather(:shipped)).to match_array([@order_3])
+        expect(Order.gather(:cancelled)).to match_array([@order_4])
       end
     end
 

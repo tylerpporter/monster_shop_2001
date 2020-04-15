@@ -44,11 +44,11 @@ class Order <ApplicationRecord
 
   def all_fulfilled?
     # item_orders.where(status: "unfulfilled").empty? benchmark = 7.507805 10,000 pulls
-    item_orders.all? {|item_order| item_order.status == "fulfilled"} #benchmark = .034 10,000 pulls 
+    item_orders.all? {|item_order| item_order.status == "fulfilled"} #benchmark = .034 10,000 pulls
   end
 
   def package!
-    self.status = "packaged"
+    self.update(status: "packaged")
   end
 
 end
