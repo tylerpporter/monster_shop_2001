@@ -15,7 +15,8 @@
     <img src=<%= item_order.item.image %>/>
     <%= item_order.price %>
     Quantity: <%= item_order.quantity %>
-    <%= link_to "fulfill", "/merchant/item_orders/#{item_order.id}", method: :patch unless item_order.fulfilled? %>
-    <p><%= "Item Fulfilled" unless item_order.unfulfilled? %></p>
+    <%= link_to "fulfill", "/merchant/item_orders/#{item_order.id}", method: :patch unless item_order.fulfilled? || item_order.not_enough_inventory? %>
+    <p><%= "Cannot fulfill, not enough inventory" if item_order.fulfilled? || item_order.not_enough_inventory? %></p>
+    <p><%= "Item Fulfilled" if item_order.fulfilled? %></p>
   </section>
 <% end %>

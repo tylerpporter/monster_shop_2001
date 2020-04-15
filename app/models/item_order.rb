@@ -14,4 +14,8 @@ class ItemOrder <ApplicationRecord
     item.inventory += quantity
   end
 
+  def not_enough_inventory?
+    quantity > item.inventory
+  end
+
 end

@@ -28,8 +28,8 @@ RSpec.describe "As a merchant employee", type: :feature do
 
       @order2 = @shopper.orders.create(name: "Test", address: "123 S South St", city: "Whatatown", state: "CA", zip: 98765)
       @item_order4 = @order2.item_orders.create(item: @bike_item1, price: @bike_item1.price, quantity: 5)
-      @item_order5 = @order2.item_orders.create(item: @bike_item2, price: @bike_item2.price, quantity: 5)
-      @item_order6 = @order2.item_orders.create(item: @art_item1, price: @art_item1.price, quantity: 4)
+      @item_order5 = @order2.item_orders.create(item: @bike_item2, price: @bike_item2.price, quantity: 51)
+      @item_order6 = @order2.item_orders.create(item: @art_item1, price: @art_item1.price, quantity: 101)
 
       @shop_employee = User.create(name: "Bob",
                                    address: "123 Glorious Way",
@@ -104,6 +104,19 @@ RSpec.describe "As a merchant employee", type: :feature do
       end
 
       expect(page).to have_content("#{@item_order2.item.name} has been fulfilled")
+    end
+
+    it "I do not see fulfill button next to orders greater in quantity than inventory" do
+      visit "/merchant/orders/#{@order2.id}"
+
+      within("#item-#{@item_order4.item_id}") do
+        expect(page).to have_link('fulfill')
+      end
+      within("#item-#{@item_order5.item_id}") do
+        expect(page).to have_no_link('fulfill')
+        expect(page).to have_no_content('Item Fulfilled')
+        expect(page).to have_content("Cannot fulfill, not enough inventory")
+      end
     end
   end
 end
