@@ -7,7 +7,7 @@
   <% @orders.gather(:packaged).each do |order| %>
     <section id="order-<%= order.id %>">
       <p><%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
-      <p><%= link_to order.id, "/order/#{order.id}" %></p>
+      <p><%= order.id %></p>
       <p><%= order.created_at %></p>
       <%= button_to "Ship", "/orders/#{order.id}?status=shipped", method: :patch %>
     </section>
@@ -19,7 +19,7 @@
   <% @orders.gather(:pending).each do |order| %>
     <section id="order-<%= order.id %>">
       <p><%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
-      <p><%= link_to order.id, "/orders/#{order.id}" %></p>
+      <p><%= order.id %></p>
       <p><%= order.created_at %></p>
     </section>
   <% end %>
@@ -30,7 +30,7 @@
   <% @orders.gather(:shipped).each do |order| %>
     <section id="order-<%= order.id %>">
       <p><%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
-      <p><%= link_to order.id, "/order/#{order.id}" %></p>
+      <p><%= order.id %></p>
       <p><%= order.created_at %></p>
     </section>
   <% end %>
@@ -41,7 +41,7 @@
   <% @orders.gather(:cancelled).each do |order| %>
     <section id="order-<%= order.id %>">
       <p><%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
-      <p><%= link_to order.id, "/order/#{order.id}" %></p>
+      <p><%= order.id %></p>
       <p><%= order.created_at %></p>
     </section>
   <% end %>
