@@ -48,6 +48,10 @@ describe Order, type: :model do
 
       @order_4 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 3)
       @item_order6 = @order_4.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
+
+      @order_5 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 0)
+      @item_order7 = @order_5.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: "fulfilled")
+      @item_order8 = @order_5.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: "fulfilled")
     end
 
 
@@ -86,14 +90,26 @@ describe Order, type: :model do
       it 'can find item values for a merchant' do
         expect(@order_1.total_value_for(@meg)).to eql(350)
       end
+
+      it '#all_fulfilled?' do
+        expect(@order_1.all_fulfilled?).to eq(false)
+        expect(@order_5.all_fulfilled?).to eq(true)
+      end
+
+      it '#package!' do
+        expect(@order_1.status).to eq('pending')
+        @order_1.package!
+        expect(@order_1.status).to eq('packaged')
+      end
+
     end
 
     describe "class methods" do
       it '.gather' do
-        expect(Order.gather(:packaged)).to eq([@order_2])
-        expect(Order.gather(:pending)).to eq([@order_1])
-        expect(Order.gather(:shipped)).to eq([@order_3])
-        expect(Order.gather(:cancelled)).to eq([@order_4])
+        expect(Order.gather(:packaged)).to match_array([@order_2])
+        expect(Order.gather(:pending)).to match_array([@order_1, @order_5])
+        expect(Order.gather(:shipped)).to match_array([@order_3])
+        expect(Order.gather(:cancelled)).to match_array([@order_4])
       end
     end
 
