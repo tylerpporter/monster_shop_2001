@@ -17,18 +17,6 @@ RSpec.describe "As an admin user" do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
   end
 
-  context "In the merchant index page"
-  it "I can click on merchant name and navigate to /admin/merchants/:id" do
-
-    visit "/merchants"
-
-    within("#merchant-#{@merchant1.id}") do
-      click_link(@merchant1.name)
-    end
-
-    expect(current_path).to eql("/admin/merchants/#{@merchant1.id}")
-  end
-
   context "In the admin merchant show page"
   it "I can see everything a merchant would see." do
   item1 = @merchant1.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)

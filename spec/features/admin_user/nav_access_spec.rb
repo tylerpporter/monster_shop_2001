@@ -33,7 +33,7 @@ RSpec.describe "As a admin level user" do
         click_link "All Merchants"
       end
 
-      expect(current_path).to eql("/merchants")
+      expect(current_path).to eql("/admin/merchants")
     end
 
     it "I can click link to navigate to profile page" do
