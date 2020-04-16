@@ -1,4 +1,5 @@
 class PasswordsController < ApplicationController
+
   def edit
   end
 
@@ -19,4 +20,5 @@ class PasswordsController < ApplicationController
   def password_params
     params.permit(:password, :password_confirmation)
   end
+
 end

@@ -1,0 +1,10 @@
+<%= render partial: "layouts/partials/item_new",
+locals: {
+  merchant: @merchant,
+  path: "/merchant/items",
+  item_name: @item.name,
+  item_description: @item.description,
+  item_price: @item.price,
+  item_image: @item.image,
+  item_inventory: @item.inventory
+} %>

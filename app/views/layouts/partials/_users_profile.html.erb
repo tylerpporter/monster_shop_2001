@@ -1,0 +1,18 @@
+<h1>Profile Page</h1>
+<section class="user-profile-main-block" >
+  <p>Name: <%= user.name %> </p>
+  <p>Address: <%= user.address %> </p>
+  <p>City: <%= user.city %> </p>
+  <p>State: <%= user.state %> </p>
+  <p>Zip: <%= user.zip %> </p>
+  <p>Email: <%= user.email %> </p>
+  <%= link_to "Edit Profile", "/profile/edit" unless current_admin? %>
+</section>
+
+<section class="reset-password-main-block" >
+  <%= link_to "Reset Password", "/password/edit" unless current_admin? %>
+</section>
+
+<section>
+  <%= link_to "My Orders", "/profile/orders" unless current_admin? %>
+</section>

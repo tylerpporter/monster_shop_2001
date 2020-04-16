@@ -38,19 +38,11 @@ Rails.application.routes.draw do
   #logout
   delete '/logout', to: 'session#destroy'
 
-  #profile
-  # get '/profile', to: 'profile#show'
-  # get '/profile/edit', to: 'profile#edit'
-  # patch '/profile', to: 'profile#update'
-
   #password_reset
   resource :password, only: [:edit, :update]
 
   namespace :profile, resources: :profile do
     resources :orders, only: [:index, :show, :update]
-    # get '/profile/orders', to: 'orders#index'
-    # get '/profile/orders/:id', to: 'orders#show' #come back, figure out route refactor
-    # patch '/profile/orders/:id', to: 'orders#update'
     get '/', to: 'dashboard#show'
     get '/edit', to: 'dashboard#edit'
     patch '/', to: 'dashboard#update'
@@ -59,7 +51,7 @@ Rails.application.routes.draw do
   #admin_user
   namespace :admin do
     get '/', to: 'dashboard#show'
-    resources :merchants, only: [:show]
+    resources :merchants, only: [:index, :show, :update]
     resources :users, only: [:index, :show]
   end
 
@@ -67,6 +59,7 @@ Rails.application.routes.draw do
   namespace :merchant do
     get '/', to: 'dashboard#show'
     get '/orders/:id', to: 'orders#show'
-    get '/items', to: 'items#index'
+    resources :items, except: [:show]
+    resources :item_orders, only: [:update]
   end
 end

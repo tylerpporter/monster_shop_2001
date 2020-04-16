@@ -8,7 +8,7 @@ class OrdersController <ApplicationController
     order.save ? success(order) : failure
   end
 
-  def update #this action will have to be hit when a merchant fulfills all items and that action will need a query param ?status="packaged"
+  def update
     order = Order.find(params[:id])
     if params[:status] == "shipped"
       order.update(update_params)

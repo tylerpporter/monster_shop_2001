@@ -35,9 +35,9 @@ describe Order, type: :model do
 
       @order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 0)
 
-      @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      @order_1.item_orders.create!(item: @chain, price: @chain.price, quantity: 3)
-      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
+      @order1_item_order1 = @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      @order1_item_order2 = @order_1.item_orders.create!(item: @chain, price: @chain.price, quantity: 3)
+      @order1_item_order3 = @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
 
       @order_2 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 1)
       @item_order3 = @order_2.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
@@ -48,6 +48,10 @@ describe Order, type: :model do
 
       @order_4 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 3)
       @item_order6 = @order_4.item_orders.create!(item: @tire, price: @tire.price, quantity: 4)
+
+      @order_5 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: 0)
+      @item_order7 = @order_5.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: "fulfilled")
+      @item_order8 = @order_5.item_orders.create!(item: @tire, price: @tire.price, quantity: 4, status: "fulfilled")
     end
 
 
@@ -58,7 +62,13 @@ describe Order, type: :model do
         expect(@order_1.grandtotal).to eq(380)
       end
 
-      it 'create_item_orders' do
+      it '#all_items_for(merchant)' do
+        merchant_items = @order_1.all_items_for(@meg)
+
+        expect(merchant_items).to contain_exactly(@order1_item_order1, @order1_item_order2)
+      end
+
+      it '#create_item_orders' do
         item1 = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
         item2 = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
         @order_1.create_item_orders({item1 => 2, item2 => 1})
@@ -80,14 +90,26 @@ describe Order, type: :model do
       it 'can find item values for a merchant' do
         expect(@order_1.total_value_for(@meg)).to eql(350)
       end
+
+      it '#all_fulfilled?' do
+        expect(@order_1.all_fulfilled?).to eq(false)
+        expect(@order_5.all_fulfilled?).to eq(true)
+      end
+
+      it '#package!' do
+        expect(@order_1.status).to eq('pending')
+        @order_1.package!
+        expect(@order_1.status).to eq('packaged')
+      end
+
     end
 
     describe "class methods" do
       it '.gather' do
-        expect(Order.gather(:packaged)).to eq([@order_2])
-        expect(Order.gather(:pending)).to eq([@order_1])
-        expect(Order.gather(:shipped)).to eq([@order_3])
-        expect(Order.gather(:cancelled)).to eq([@order_4])
+        expect(Order.gather(:packaged)).to match_array([@order_2])
+        expect(Order.gather(:pending)).to match_array([@order_1, @order_5])
+        expect(Order.gather(:shipped)).to match_array([@order_3])
+        expect(Order.gather(:cancelled)).to match_array([@order_4])
       end
     end
 
