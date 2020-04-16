@@ -5,14 +5,14 @@ RSpec.describe "As a regisered user" do
     before(:each) do
       visit "/register"
       within(".form") do
-        fill_in :name, with: "Ryan Camp"
-        fill_in :address, with: "1163 S Dudley St"
-        fill_in :city, with: "Lakewood"
-        fill_in :state, with: "CO"
-        fill_in :zip, with: "80232"
-        fill_in :email, with: "campryan@comcast.net"
-        fill_in :password, with: "password"
-        fill_in :password_confirmation, with: "password"
+        fill_in "user[name]", with: "Ryan Camp"
+        fill_in "user[address]", with: "1163 S Dudley St"
+        fill_in "user[city]", with: "Lakewood"
+        fill_in "user[state]", with: "CO"
+        fill_in "user[zip]", with: "80232"
+        fill_in "user[email]", with: "campryan@comcast.net"
+        fill_in "user[password]", with: "password"
+        fill_in "user[password_confirmation]", with: "password"
         click_button("Submit")
       end
       @user = User.last
@@ -79,12 +79,3 @@ RSpec.describe "As a regisered user" do
     end
   end
 end
-
-# User Story 22, User Editing Profile Data must have unique Email address
-#
-# As a registered user
-# When I attempt to edit my profile data
-# If I try to change my email address to one that belongs to another user
-# When I submit the form
-# Then I am returned to the profile edit page
-# And I see a flash message telling me that email address is already in use
