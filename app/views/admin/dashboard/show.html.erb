@@ -3,7 +3,7 @@
 
 <section class="status" id="packaged">
   <h2>Packaged</h2>
-  <%= @orders.gather(:packaged).each do |order| %>
+  <% @orders.gather(:packaged).each do |order| %>
     <section id="order-<%= order.id %>">
       <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
       <%= order.id %>
@@ -15,7 +15,7 @@
 
 <section class="status" id="pending">
   <h2>Pending</h2>
-  <%= @orders.gather(:pending).each do |order| %>
+  <% @orders.gather(:pending).each do |order| %>
     <section id="order-<%= order.id %>">
       <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
       <%= order.id %>
@@ -26,7 +26,7 @@
 
 <section class="status" id="shipped">
   <h2>Shipped</h2>
-  <%= @orders.gather(:shipped).each do |order| %>
+  <% @orders.gather(:shipped).each do |order| %>
     <section id="order-<%= order.id %>">
       <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
       <%= order.id %>
@@ -37,7 +37,7 @@
 
 <section class="status" id="cancelled">
   <h2>Cancelled</h2>
-  <%= @orders.gather(:cancelled).each do |order| %>
+  <% @orders.gather(:cancelled).each do |order| %>
     <section id="order-<%= order.id %>">
       <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
       <%= order.id %>
